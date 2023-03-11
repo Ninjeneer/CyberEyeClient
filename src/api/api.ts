@@ -19,7 +19,6 @@ export default {
     },
     scans: {
         sendScanRequest: async (scanSettings: ScanSettings) => {
-            console.log(`${constants.requestServiceURL}/scans`)
             return await fetch(`${constants.requestServiceURL}/scans`, {
                 method: 'POST',
                 headers: {
@@ -36,7 +35,7 @@ export default {
         },
         listenForScans: (onChange: (payload: RealtimePostgresChangesPayload<any>) => void) => {
             supabaseClient.channel('scans')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'reports' }, onChange)
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'scans' }, onChange)
                 .subscribe()
         },
     },

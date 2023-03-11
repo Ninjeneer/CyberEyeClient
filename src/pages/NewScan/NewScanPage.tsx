@@ -31,7 +31,6 @@ const NewScanPage = () => {
 	const [periodicity, setPeriodicity] = useState('')
 
 	const isSettingsValid = useMemo(() => {
-		console.log({ target, selectedProbes, periodicity })
 		return target && selectedProbes.length > 0 && periodicity
 	}, [target, selectedProbes, periodicity])
 

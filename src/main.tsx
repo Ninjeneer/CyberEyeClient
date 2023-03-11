@@ -6,9 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import DashboardPage from './pages/Dashboard/DashboardPage'
 import NewScanPage from './pages/NewScan/NewScanPage'
 import ConfirmScanPage from './pages/ConfirmScan/ConfirmScanPage'
-// import { config } from 'dotenv'
-
-// config()
+import ScanListPage from './pages/ScanList/ScanListPage'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +16,7 @@ const router = createBrowserRouter([
       { path: '', element: <DashboardPage /> },
       { path: '/new-scan', element: <NewScanPage /> },
       { path: '/confirm-scan', element: <ConfirmScanPage /> },
+      { path: '/scans', element: <ScanListPage /> },
     ]
   }
 ])

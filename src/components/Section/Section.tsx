@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { TbSquareChevronDown, TbSquareChevronUp } from "react-icons/tb";
 
 type Props = {
@@ -20,7 +20,7 @@ const Section = ({ name, children }: Props) => {
                 </span>
             </header>
             {show ? (
-                <div className="container mt-2 p-2">
+                <div className="container p-2 mt-2">
                     {children}
                 </div>
             ) : null}
