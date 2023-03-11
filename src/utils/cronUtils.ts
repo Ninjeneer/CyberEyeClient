@@ -6,3 +6,7 @@ export const availablePeriodicities = [
     { cron: '0 0 1 * *', label: 'Tous les mois' },
     { cron: '0 0 1 1 *', label: 'Tous les ans' },
 ];
+
+export const getPeriodicityLabelByValue = (value: string) => {
+    return availablePeriodicities.find((periodicity) => periodicity.cron === value)?.label
+}

@@ -5,7 +5,7 @@ import cx from 'classnames'
 
 type Props = {
 	probe: Probe,
-	selectable: boolean
+	selectable?: boolean
 	onChange?: (probe: Probe) => void
 }
 

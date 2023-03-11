@@ -27,7 +27,7 @@ body,
   color: @apply text-primary
 }
 
-label {
+.inputGroup label {
   @apply text-sm;
   text-transform: uppercase;
 }

@@ -5,6 +5,10 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import DashboardPage from './pages/Dashboard/DashboardPage'
 import NewScanPage from './pages/NewScan/NewScanPage'
+import ConfirmScanPage from './pages/ConfirmScan/ConfirmScanPage'
+// import { config } from 'dotenv'
+
+// config()
 
 const router = createBrowserRouter([
   {
@@ -12,7 +16,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <DashboardPage /> },
-      { path: '/new-scan', element: <NewScanPage /> }
+      { path: '/new-scan', element: <NewScanPage /> },
+      { path: '/confirm-scan', element: <ConfirmScanPage /> },
     ]
   }
 ])
