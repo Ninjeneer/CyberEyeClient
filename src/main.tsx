@@ -7,6 +7,7 @@ import DashboardPage from './pages/Dashboard/DashboardPage'
 import NewScanPage from './pages/NewScan/NewScanPage'
 import ConfirmScanPage from './pages/ConfirmScan/ConfirmScanPage'
 import ScanListPage from './pages/ScanList/ScanListPage'
+import ScanResult from './pages/ScanResult/ScanResultPage'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: '/new-scan', element: <NewScanPage /> },
       { path: '/confirm-scan', element: <ConfirmScanPage /> },
       { path: '/scans', element: <ScanListPage /> },
+      { path: '/scans/:id', element: <ScanResult /> },
     ]
   }
 ])

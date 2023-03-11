@@ -5,12 +5,19 @@ import api from "../../api/api"
 import { Scan, ScanStatus } from "../../models/Scan"
 import { format } from 'date-fns'
 import { BsChevronRight } from "react-icons/bs";
+import { GiSandsOfTime } from "react-icons/gi";
 import cx from 'classnames'
+import { useNavigate } from "react-router-dom"
 
 type ScanEntryProps = {
 	scan: Scan
 }
 const ScanEntry = ({ scan }: ScanEntryProps) => {
+	const navigate = useNavigate()
+	const goToReport = () => {
+		navigate(`/scans/${scan.id}`, { state: scan })
+	}
+
 	return (
 		<div
 			className={
@@ -19,6 +26,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 					scan.status === ScanStatus.FINISHED && "hover:cursor-pointer hover:bg-bgLight"
 				)
 			}
+			onClick={goToReport}
 		>
 			<h2 className="flex-1">{scan.target}</h2>
 			<div className="flex-1">
@@ -26,7 +34,8 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 			</div>
 			<div className="flex flex-1 justify-end">
 				{
-					scan.status === ScanStatus.FINISHED && <BsChevronRight />
+					scan.status === ScanStatus.FINISHED ? <BsChevronRight /> :
+					scan.status === ScanStatus.PENDING ? <GiSandsOfTime /> : null
 				}
 			</div>
 		</div>

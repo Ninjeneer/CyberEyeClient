@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Probe } from "../../models/Probe"
 import Button from "../Button/Button"
 import cx from 'classnames'
+import { probeNameMapping } from "../../utils/probeUtils"
 
 type Props = {
 	probe: Probe,
@@ -14,15 +15,17 @@ const ProbeInfo = ({ probe, selectable, onChange }: Props) => {
 
 	return (
 		<div className={cx(
-			"p-2 border-2 rounded w-full",
+			"p-2 border-2 rounded w-full flex flex-col justify-between",
 			isSelected && 'border-l-primary border-l-4',
 		)}>
-			<header>
-				<h2 className="text-xl">{probe.displayName}</h2>
-			</header >
+			<div>
+				<header>
+					<h2 className="text-xl">{probeNameMapping[probe.name]}</h2>
+				</header >
 
-			<div className="ml-2 text-gray-900">
-				<p>{probe.description ?? 'Aucune description disponible'}</p>
+				<div className="ml-2 text-gray-900">
+					<p>{probe.description ?? 'Aucune description disponible'}</p>
+				</div>
 			</div>
 
 			<footer className="flex justify-end items-center">

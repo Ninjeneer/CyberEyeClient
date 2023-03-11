@@ -7,6 +7,8 @@ import Periodicity from "../../components/Periodicity/Periodicity"
 import { Probe } from "../../models/Probe"
 import { useNavigate } from "react-router-dom"
 import { ScanSettings } from "../../models/Scan"
+import api from "../../api/api"
+import { StatusCodes } from "http-status-codes"
 
 type FooterProps = {
 	disabled: boolean
@@ -27,8 +29,17 @@ const Footer = ({ disabled, data }: FooterProps) => {
 
 const NewScanPage = () => {
 	const [target, setTarget] = useState('')
-	const [selectedProbes, setSelectedProbes] = useState([])
+	const [availableProbes, setAvailableProbes] = useState<Probe[]>([])
+	const [selectedProbes, setSelectedProbes] = useState<Probe[]>([])
 	const [periodicity, setPeriodicity] = useState('')
+
+	useMemo(() => {
+		api.probes.getAvailableProbes().then(async (res) => {
+			if (res.status === StatusCodes.OK) {
+				setAvailableProbes(await res.json())
+			}
+		})
+	}, [])
 
 	const isSettingsValid = useMemo(() => {
 		return target && selectedProbes.length > 0 && periodicity
@@ -69,27 +80,15 @@ const NewScanPage = () => {
 
 			<Section name="Sondes disponibles">
 				<div className="flex flex-col gap-2 lg:flex-row">
-					<ProbeInfo
-						probe={{
-							description: 'bla bla',
-							displayName: 'aaaaaa',
-							name: 'aaaaa',
-							type: 'bbbbb',
-						}}
-						selectable={true}
-						onChange={onProbeChange}
-					/>
+					{availableProbes.map((probe) => (
+						<ProbeInfo
+							probe={probe}
+							key={probe.name}
+							selectable={true}
+							onChange={onProbeChange}
+						/>
+					))}
 
-					<ProbeInfo
-						probe={{
-							description: 'bla bla',
-							displayName: 'bbbbb',
-							name: 'bbbbb',
-							type: 'bbbbb'
-						}}
-						selectable={true}
-						onChange={onProbeChange}
-					/>
 				</div>
 			</Section>
 

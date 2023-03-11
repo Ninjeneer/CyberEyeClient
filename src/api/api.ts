@@ -46,7 +46,7 @@ export default {
     },
     reports: {
         getReportById: (id: string) => {
-            return fetch(`${constants.requestServiceURL}/reports/${id}`)
+            return fetch(`${constants.reportServiceURL}/reports/${id}`)
         }
     }
 }
