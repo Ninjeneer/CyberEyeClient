@@ -1,0 +1,14 @@
+.button {
+    @apply px-4 py-2 rounded;
+    transition-duration: 0.3s;
+}
+
+.primary {
+    @apply bg-primary text-white;
+    transition-duration: 0.3s;
+}
+
+.secondary {
+    @apply bg-white text-primary border-2 border-primary;
+    transition-duration: 0.3s;
+}

@@ -1,0 +1,22 @@
+@import '../../index.css';
+
+.navLink:hover,
+.active {
+    @apply bg-primary text-white font-bold;
+    transition-duration: 0.3s;
+}
+
+nav {
+    background: linear-gradient(to right,
+            #0094FF 0%,
+            #0094FF 60px,
+            white 60px,
+            white 100%);
+}
+
+.icon {
+    width: 60px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
