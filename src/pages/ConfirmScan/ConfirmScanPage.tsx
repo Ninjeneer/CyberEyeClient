@@ -43,30 +43,18 @@ const ConfirmScanPage = () => {
 
             <Section name="Sondes séléctionnées">
                 <div className="flex flex-col gap-2 lg:flex-row">
-                    <ProbeInfo
-                        probe={{
-                            description: 'bla bla',
-                            displayName: 'aaaaaa',
-                            name: 'aaaaa',
-                            type: 'bbbbb',
-                        }}
-                    />
-
-                    <ProbeInfo
-                        probe={{
-                            description: 'bla bla',
-                            displayName: 'bbbbb',
-                            name: 'bbbbb',
-                            type: 'bbbbb'
-                        }}
-                    />
+                    {scanSettings.probes.map((probe) => (
+                        <ProbeInfo
+                            probe={probe}
+                        />
+                    ))}
                 </div>
             </Section>
 
             <div className="w-full text-center">
                 <label>
                     <input type="checkbox" checked={agree} onChange={() => setAgree(!agree)} className="mr-2" />
-                    En cochant cette case, je confirme que je suis le propriétaire de la cible et/ou que je suis autorisé à effectuer des scans sur celle-ci.
+                    En cochant cette case, je confirme que je suis le propriétaire de la cible et/ou que je suis explicitement autorisé à effectuer des scans sur celle-ci.
                 </label>
             </div>
         </Page>

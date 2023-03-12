@@ -8,6 +8,8 @@ import { Report } from "../../models/report"
 import { Scan } from "../../models/Scan"
 import { format, intervalToDuration } from "date-fns"
 import { secondsToTimeString } from "../../utils/timeUtils"
+import { getProbeResultComponent } from "../../components/ProbeResults/probeSelector"
+import React from "react"
 
 type SummaryEntryProps = {
     name: string
@@ -15,7 +17,7 @@ type SummaryEntryProps = {
 }
 const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
     return (
-        <div className="flex flex-row lg:flex-col gap-2">
+        <div className="flex flex-col lg:gap-2">
             <label className="uppercase">{name}</label>
             <p className="text-lg text-primary">{value}</p>
         </div>
@@ -40,15 +42,21 @@ const ScanResult = () => {
     return scan && report ? (
         <Page pageTitle="Rapport de scan">
             <Section name="Résumé">
-                <div className="flex flex-col lg:flex-row justify-around">
+                <div className="flex flex-col lg:flex-row justify-around gap-4 lg:gap-0">
                     <SummaryEntry name="Nombre de sondes" value={report?.nbProbes} />
                     <SummaryEntry name="Durée" value={secondsToTimeString(report.totalTime * 1000)} />
-                    <SummaryEntry name="Demandé le" value={format(new Date(scan?.createdAt), 'dd / MM / yyy - hh:mm:ss')} />
+                    <SummaryEntry name="Demandé le" value={format(new Date(scan?.createdAt), 'dd / MM / yyy - hh:mm')} />
                 </div>
             </Section>
 
             <Section name="Résultats">
-                <p>lol</p>
+                {report.results.map((result) => {
+                    const element = getProbeResultComponent(result.context.probeName)
+                    return React.createElement(element, {
+                        result,
+                        key: result.context.probeUid
+                    })
+                })}
             </Section>
         </Page>
     ) : null

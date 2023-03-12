@@ -8,7 +8,7 @@ const Root = () => {
                 <Menu />
             </aside>
 
-            <div className='w-full mx-auto bg-bgLight h-full'>
+            <div className='w-full mx-auto bg-bgLight h-full overflow-auto'>
                 <Outlet />
             </div>
         </div>

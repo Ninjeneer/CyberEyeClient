@@ -3,7 +3,7 @@
 .navLink:hover,
 .active {
     @apply bg-primary text-white font-bold;
-    transition-duration: 0.3s;
+    transition-duration: 0.2s;
 }
 
 nav {

@@ -6,13 +6,14 @@ type Props = {
     type: 'primary' | 'secondary',
     onClick?: () => void
     disabled?: boolean
+    size?: 'small' | 'base' | 'big'
 }
 
-const Button = ({ text, type, onClick, disabled }: Props) => {
+const Button = ({ text, type, onClick, disabled, size = 'base' }: Props) => {
     return (
         <button
             onClick={onClick}
-            className={cx(style[type], style.button)}
+            className={cx(style[type], style.button, style[size])}
             disabled={disabled}
         >
             {text}

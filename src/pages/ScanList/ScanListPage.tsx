@@ -22,7 +22,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 		<div
 			className={
 				cx(
-					"border-2 rounded mb-2 p-2 flex flex-col lg:flex-row justify-between items-center",
+					"border rounded mb-2 p-2 flex flex-col lg:flex-row justify-between items-center",
 					scan.status === ScanStatus.FINISHED && "hover:cursor-pointer hover:bg-bgLight"
 				)
 			}
@@ -35,7 +35,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 			<div className="flex flex-1 justify-end">
 				{
 					scan.status === ScanStatus.FINISHED ? <BsChevronRight /> :
-					scan.status === ScanStatus.PENDING ? <GiSandsOfTime /> : null
+						scan.status === ScanStatus.PENDING ? <GiSandsOfTime /> : null
 				}
 			</div>
 		</div>
@@ -80,37 +80,37 @@ const ScanListPage = () => {
 
 	useEffect(() => {
 		api.scans.getScans().then((res) => {
-			const scans = res.data as Scan[]
-			if (scans) {
-				setScans(scans.reduce((res, scan) => {
+			const resScans = res.data as Scan[]
+			if (resScans) {
+				setScans(resScans.reduce((res, scan) => {
 					res[scan.id] = scan
 					return res
 				}, {}))
 			}
 		})
-
-
-		api.scans.listenForScans((change) => {
-			if (change.eventType === 'INSERT' || change.eventType === 'UPDATE') {
-				handleUpsertScan(change.new)
-			} else if (change.eventType === 'DELETE') {
-				handleDelete(change.old.id)
-			}
-		})
 	}, [])
+
+	api.scans.listenForScans((change) => {
+		if (change.eventType === 'INSERT' || change.eventType === 'UPDATE') {
+			handleUpsertScan(change.new)
+
+		} else if (change.eventType === 'DELETE') {
+			handleDelete(change.old.id)
+		}
+	})
 
 	return (
 		<Page pageTitle="Mes scans">
 			<Section name={`En cours (${runningScans.length})`}>
-				{(runningScans || []).map((scan) => <ScanEntry scan={scan} key={scan.id} />)}
+				{(runningScans || []).map((scan) => <ScanEntry scan={scan} key={`running_${scan.id}`} />)}
 			</Section>
 
 			<Section name={`En attente (${pendingScans.length})`}>
-				{(pendingScans || []).map((scan) => <ScanEntry scan={scan} key={scan.id} />)}
+				{(pendingScans || []).map((scan) => <ScanEntry scan={scan} key={`pending_${scan.id}`} />)}
 			</Section>
 
 			<Section name={`Terminés (${finishedScans.length})`}>
-				{(finishedScans || []).map((scan) => <ScanEntry scan={scan} key={scan.id} />)}
+				{(finishedScans || []).map((scan) => <ScanEntry scan={scan} key={`finished_${scan.id}`} />)}
 			</Section>
 		</Page>
 	)
