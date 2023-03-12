@@ -46,6 +46,7 @@ const ConfirmScanPage = () => {
                     {scanSettings.probes.map((probe) => (
                         <ProbeInfo
                             probe={probe}
+                            key={probe.name}
                         />
                     ))}
                 </div>

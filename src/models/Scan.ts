@@ -8,7 +8,7 @@ export type ScanSettings = {
 
 export type Scan = {
 	target: string;
-	createdAt: number;
+	createdAt: string;
 	id: string;
 	status: ScanStatus;
 	notification: boolean;

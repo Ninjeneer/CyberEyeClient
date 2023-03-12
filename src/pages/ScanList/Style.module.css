@@ -1,0 +1,32 @@
+:root {
+    --duration: 2s;
+}
+
+@keyframes blinker {
+    0% {
+        background-color: white;
+    }
+
+    50% {
+        background-color: rgba(91, 168, 251, 0.2);
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.flash {
+    animation: blinker 4s ease-in-out infinite;
+    /* background-image: linear-gradient( #5ba8fb, rgba(131,113,251,0.5)); */
+
+    /* -webkit-animation-name: blinker;
+    animation-duration: var(--duration);
+    -webkit-animation-duration: var(--duration);
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+    -webkit-animation-direction: alternate; */
+}

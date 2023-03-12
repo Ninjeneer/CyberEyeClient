@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Page from "../../components/Page/Page"
 import Section from "../../components/Section/Section"
 import { useLocation, useParams } from "react-router-dom"
@@ -27,6 +27,12 @@ const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
 const ScanResult = () => {
     const [report, setReport] = useState<Report>(null)
     const { state: scan } = useLocation() as { state: Scan }
+
+    useEffect(() => {
+        if (scan.notification) {
+            api.scans.updateScan(scan.id, { notification: false }).then()
+        }
+    }, [scan])
 
     useMemo(() => {
         if (!scan) {

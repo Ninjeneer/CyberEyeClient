@@ -1,6 +1,6 @@
 import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 import constants from "../constants";
-import { ScanSettings } from "../models/Scan";
+import { Scan, ScanSettings } from "../models/Scan";
 import supabaseClient from './supabase'
 
 
@@ -32,6 +32,9 @@ export default {
         },
         getScan: (id: string) => {
             return supabaseClient.from('scans').select('*').eq('id', id).single()
+        },
+        updateScan: (id: string, payload: Partial<Scan>) => {
+            return supabaseClient.from('scans').update(payload).eq('id', id)
         },
         listenForScans: (onChange: (payload: RealtimePostgresChangesPayload<any>) => void) => {
             supabaseClient.channel('scans')

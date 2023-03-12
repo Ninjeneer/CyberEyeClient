@@ -8,6 +8,8 @@ import { BsChevronRight } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import cx from 'classnames'
 import { useNavigate } from "react-router-dom"
+import { sortByDate } from "../../utils/scanUtils"
+import style from './Style.module.css'
 
 type ScanEntryProps = {
 	scan: Scan
@@ -23,7 +25,8 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 			className={
 				cx(
 					"border rounded mb-2 p-2 flex flex-col lg:flex-row justify-between items-center",
-					scan.status === ScanStatus.FINISHED && "hover:cursor-pointer hover:bg-bgLight"
+					scan.status === ScanStatus.FINISHED && "hover:cursor-pointer hover:bg-bgLight",
+					scan.status === ScanStatus.FINISHED && scan.notification && style.flash
 				)
 			}
 			onClick={goToReport}
@@ -59,7 +62,7 @@ const ScanListPage = () => {
 				running.push(scan)
 			}
 		}
-		return [pending, running, finished]
+		return [pending.sort(sortByDate), running.sort(sortByDate), finished.sort(sortByDate)]
 	}, [scans])
 
 	const handleUpsertScan = (scan: Scan) => {
