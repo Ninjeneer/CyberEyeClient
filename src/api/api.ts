@@ -15,7 +15,10 @@ export default {
         },
         logout: () => {
             return supabaseClient.auth.signOut();
-        }
+        },
+        onAuthStateChange: ((callback: (event, session) => void) => {
+            supabaseClient.auth.onAuthStateChange(callback)
+        })
     },
     scans: {
         sendScanRequest: async (scanSettings: ScanSettings) => {
