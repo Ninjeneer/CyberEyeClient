@@ -22,7 +22,7 @@ const Table = ({ columns, data, renderRowSubComponent }) => {
                 <thead className='bg-bgLight border'>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
+                            {headerGroup.headers.map((column: any) => (
                                 <th {...column.getHeaderProps(column.getSortByToggleProps())} className='p-2'>
                                     {column.render('Header')}
                                     <span>
@@ -38,7 +38,7 @@ const Table = ({ columns, data, renderRowSubComponent }) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
+                    {rows.map((row: any, i) => {
                         prepareRow(row)
                         return (
                             // Use a React.Fragment here so the table markup is still valid
