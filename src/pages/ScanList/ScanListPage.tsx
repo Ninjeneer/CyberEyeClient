@@ -10,6 +10,7 @@ import cx from 'classnames'
 import { useNavigate } from "react-router-dom"
 import { sortByDate } from "../../utils/scanUtils"
 import style from './Style.module.css'
+import { useAuth } from "../../contexts/Auth"
 
 type ScanEntryProps = {
 	scan: Scan
@@ -48,6 +49,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 
 const ScanListPage = () => {
 	const [scans, setScans] = useState<Record<string, Scan>>({})
+	const session = useAuth()
 
 	const [pendingScans, runningScans, finishedScans] = useMemo(() => {
 		const pending = []
@@ -82,7 +84,7 @@ const ScanListPage = () => {
 	}
 
 	useEffect(() => {
-		api.scans.getScans().then((res) => {
+		api.authenticated(session).scans.getScans().then((res) => {
 			const resScans = res.data as Scan[]
 			if (resScans) {
 				setScans(resScans.reduce((res, scan) => {
@@ -93,7 +95,7 @@ const ScanListPage = () => {
 		})
 	}, [])
 
-	api.scans.listenForScans((change) => {
+	api.authenticated(session).scans.listenForScans((change) => {
 		if (change.eventType === 'INSERT' || change.eventType === 'UPDATE') {
 			handleUpsertScan(change.new)
 

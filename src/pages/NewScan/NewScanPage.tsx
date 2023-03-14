@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { ScanSettings } from "../../models/Scan"
 import api from "../../api/api"
 import { StatusCodes } from "http-status-codes"
+import { useAuth } from "../../contexts/Auth"
 
 type FooterProps = {
 	disabled: boolean
@@ -33,8 +34,10 @@ const NewScanPage = () => {
 	const [selectedProbes, setSelectedProbes] = useState<Probe[]>([])
 	const [periodicity, setPeriodicity] = useState('')
 
+	const session = useAuth()
+
 	useMemo(() => {
-		api.probes.getAvailableProbes().then(async (res) => {
+		api.authenticated(session).probes.getAvailableProbes().then(async (res) => {
 			if (res.status === StatusCodes.OK) {
 				setAvailableProbes(await res.json())
 			}

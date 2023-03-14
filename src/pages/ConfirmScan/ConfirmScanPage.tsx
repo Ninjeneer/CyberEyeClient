@@ -7,6 +7,7 @@ import { ScanSettings } from "../../models/Scan"
 import { getPeriodicityLabelByValue } from "../../utils/cronUtils"
 import { useState } from "react"
 import api from "../../api/api"
+import { useAuth } from "../../contexts/Auth"
 
 type FooterProps = {
     data: ScanSettings
@@ -14,8 +15,10 @@ type FooterProps = {
 }
 const Footer = ({ data, disabled }: FooterProps) => {
     const navigate = useNavigate()
+    const session = useAuth()
+
     const confirm = () => {
-        api.scans.sendScanRequest(data).then((response) => {
+        api.authenticated(session).scans.sendScanRequest(data).then((response) => {
             navigate('/scans', { state: { id: response.id } })
         })
     }

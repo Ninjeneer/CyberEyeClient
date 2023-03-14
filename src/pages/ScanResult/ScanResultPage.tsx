@@ -10,6 +10,7 @@ import { format, intervalToDuration } from "date-fns"
 import { secondsToTimeString } from "../../utils/timeUtils"
 import { getProbeResultComponent } from "../../components/ProbeResults/probeSelector"
 import React from "react"
+import { useAuth } from "../../contexts/Auth"
 
 type SummaryEntryProps = {
     name: string
@@ -27,10 +28,11 @@ const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
 const ScanResult = () => {
     const [report, setReport] = useState<Report>(null)
     const { state: scan } = useLocation() as { state: Scan }
+    const session = useAuth()
 
     useEffect(() => {
         if (scan.notification) {
-            api.scans.updateScan(scan.id, { notification: false }).then()
+            api.authenticated(session).scans.updateScan(scan.id, { notification: false }).then()
         }
     }, [scan])
 
@@ -38,7 +40,7 @@ const ScanResult = () => {
         if (!scan) {
             return
         }
-        api.reports.getReportById(scan.reportId).then(async (res) => {
+        api.authenticated(session).reports.getReportById(scan.reportId).then(async (res) => {
             if (res.status === StatusCodes.OK) {
                 setReport(await res.json())
             }
