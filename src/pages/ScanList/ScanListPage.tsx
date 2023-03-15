@@ -30,7 +30,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 					scan.status === ScanStatus.FINISHED && scan.notification && style.flash
 				)
 			}
-			onClick={goToReport}
+			onClick={scan.status === ScanStatus.FINISHED ? goToReport : null}
 		>
 			<h2 className="flex-1">{scan.target}</h2>
 			<div className="flex-1">
