@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { TbSquareChevronDown, TbSquareChevronUp } from "react-icons/tb";
 
 type Props = {
@@ -6,14 +6,14 @@ type Props = {
     children: React.ReactNode
 }
 
-const iconSize = 25
+const iconSize = 20
 
 const Section = ({ name, children }: Props) => {
     const [show, setShow] = useState(true)
 
     return (
         <div>
-            <header className="border-b-2 border-b-black flex justify-between items-center p-2 mt-2">
+            <header className="border-b border-b-black flex justify-between items-center p-2 mt-2">
                 {name}
                 <span onClick={() => setShow(!show)} className="hover:cursor-pointer">
                     {show ? <TbSquareChevronUp size={iconSize}/> : <TbSquareChevronDown size={iconSize} />}

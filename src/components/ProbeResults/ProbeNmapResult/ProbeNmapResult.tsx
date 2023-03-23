@@ -13,12 +13,17 @@ type RowCVEProps = {
 	cves: NmapService['cves']
 }
 const RowCVE = ({ cves }: RowCVEProps) => {
+	const sortedCVEs = useMemo(() => (structuredClone(cves) as RowCVEProps['cves']).sort((a, b) => b.id.localeCompare(a.id)), [cves])
+
 	return (
 		<div className="flex flex-col flex-1 gap-2 p-2">
-			{cves.map((cve) => (
+			{sortedCVEs?.map((cve) => (
 				<div key={cve.id}>
 					<label>{cve.id}</label>
-					<p className="ml-4 text-sm">{cve.descriptions?.value}</p>
+					{cve.descriptions
+						?.filter((description) => description.lang === 'en')
+						.map((description, i) => <p className="ml-4 text-sm" key={i}>{description.value}</p>)
+					}
 				</div>
 			))}
 		</div>

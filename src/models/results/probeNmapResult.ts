@@ -18,7 +18,7 @@ interface Cve {
   descriptions: {
     value: string
     lang: string
-  };
+  }[];
   metrics: Metrics;
 }
 

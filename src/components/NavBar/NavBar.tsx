@@ -19,7 +19,7 @@ const bottomLinks = [
 const NavBar = () => {
 
 	return (
-		<nav className="h-full border-r-primary border-r-2 flex">
+		<nav className="h-full border-r-primary border-r flex">
 			<div className="flex flex-col w-full justify-between py-2">
 				<div>
 					<div className="flex items-center">
