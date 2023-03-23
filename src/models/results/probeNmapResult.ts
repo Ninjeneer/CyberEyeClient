@@ -15,7 +15,10 @@ interface Cve {
   sourceIdentifier: string;
   published: string;
   vulnStatus: string;
-  descriptions: string;
+  descriptions: {
+    value: string
+    lang: string
+  };
   metrics: Metrics;
 }
 

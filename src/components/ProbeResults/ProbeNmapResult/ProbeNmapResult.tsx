@@ -18,7 +18,7 @@ const RowCVE = ({ cves }: RowCVEProps) => {
 			{cves.map((cve) => (
 				<div key={cve.id}>
 					<label>{cve.id}</label>
-					<p className="ml-4 text-sm">{cve.descriptions}</p>
+					<p className="ml-4 text-sm">{cve.descriptions?.value}</p>
 				</div>
 			))}
 		</div>
