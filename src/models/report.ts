@@ -16,3 +16,10 @@ export type Report<T = any> = {
 	endedAt: number;
 	results: ProbeResult<T>[];
 }
+
+export type SupabaseReport = {
+	id: string;
+	reportId: string;
+	scanId: string;
+	userId: string;
+}

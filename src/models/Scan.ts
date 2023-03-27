@@ -12,7 +12,7 @@ export type Scan = {
 	id: string;
 	status: ScanStatus;
 	notification: boolean;
-	reportId?: string;
+	lastReportId?: string;
 }
 
 export enum ScanStatus {

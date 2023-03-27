@@ -18,7 +18,7 @@ type ScanEntryProps = {
 const ScanEntry = ({ scan }: ScanEntryProps) => {
 	const navigate = useNavigate()
 	const goToReport = () => {
-		navigate(`/scans/${scan.id}`, { state: scan })
+		navigate(`/scans/${scan.id}`, { state: { ...scan, reportId: scan.lastReportId } })
 	}
 
 	return (

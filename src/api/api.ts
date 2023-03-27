@@ -1,8 +1,8 @@
 import { RealtimePostgresChangesPayload, Session } from "@supabase/supabase-js";
 import constants from "../constants";
+import { SupabaseReport } from "../models/report";
 import { Scan, ScanSettings } from "../models/Scan";
 import supabaseClient from './supabase'
-
 
 export default {
     auth: {
@@ -59,6 +59,9 @@ export default {
             },
             reports: {
                 getReportById: (id: string) => {
+                    return supabaseClient.from('reports').select<string, SupabaseReport>('*').eq('id', id).single()
+                },
+                getReportResultsById: (id: string) => {
                     return fetch(`${constants.reportServiceURL}/reports/${id}`, {
                         headers: {
                             'authorization': user.access_token
