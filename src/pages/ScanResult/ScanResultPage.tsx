@@ -40,7 +40,7 @@ const ScanResult = () => {
         if (!scan) {
             return
         }
-        api.authenticated(session).reports.getReportById(scan.reportId).then(async (res) => {
+        api.authenticated(session).reports.getReportById(scan.lastReportId).then(async (res) => {
             if (res.data) {
                 api.authenticated(session).reports.getReportResultsById(res.data.reportId).then(async (resultRes) => {
                     if (res.status === StatusCodes.OK) {
