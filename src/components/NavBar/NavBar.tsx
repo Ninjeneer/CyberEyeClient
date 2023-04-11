@@ -3,13 +3,15 @@ import style from './Style.module.css'
 import cx from 'classnames'
 import { MdDashboard, MdSettings } from "react-icons/md";
 import { AiFillSecurityScan } from "react-icons/ai";
-import { FaList } from "react-icons/fa";
+import { FaFile, FaList } from "react-icons/fa";
 import logo from '../../assets/logo.png'
+import { RiRadarFill } from 'react-icons/ri'
 
 const links = [
 	{ name: 'Tableau de bord', path: '/', icon: <MdDashboard size={30} /> },
 	{ name: 'Nouveau scan', path: '/new-scan', icon: <AiFillSecurityScan size={30} /> },
-	{ name: 'Mes scans', path: '/scans', icon: <FaList size={30} /> },
+	{ name: 'Mes scans', path: '/scans', icon: <RiRadarFill size={30} /> },
+	{ name: 'Mes rapports', path: '/reports', icon: <FaList size={30} /> },
 ]
 
 const bottomLinks = [

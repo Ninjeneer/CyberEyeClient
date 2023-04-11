@@ -34,7 +34,7 @@ export default {
                     }).then((res) => res.json())
                 },
                 getScans: () => {
-                    return supabaseClient.from('scans').select('*')
+                    return supabaseClient.from('scans').select('*, probes(scanId)')
                 },
                 getScan: (id: string) => {
                     return supabaseClient.from('scans').select('*').eq('id', id).single()

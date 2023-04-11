@@ -18,7 +18,7 @@ type ScanEntryProps = {
 const ScanEntry = ({ scan }: ScanEntryProps) => {
 	const navigate = useNavigate()
 	const goToReport = () => {
-		navigate(`/scans/${scan.id}`, { state: { ...scan, reportId: scan.lastReportId } })
+		navigate(`/reports/${scan.id}`, { state: { ...scan, reportId: scan.lastReportId } })
 	}
 
 	return (
@@ -47,7 +47,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 }
 
 
-const ScanListPage = () => {
+const ReportsListPage = () => {
 	const [scans, setScans] = useState<Record<string, Scan>>({})
 	const session = useAuth()
 
@@ -105,7 +105,7 @@ const ScanListPage = () => {
 	})
 
 	return (
-		<Page pageTitle="Mes scans">
+		<Page pageTitle="Mes rapports">
 			<Section name={`En cours (${runningScans.length})`}>
 				{(runningScans || []).map((scan) => <ScanEntry scan={scan} key={`running_${scan.id}`} />)}
 			</Section>
@@ -121,4 +121,4 @@ const ScanListPage = () => {
 	)
 }
 
-export default ScanListPage
+export default ReportsListPage

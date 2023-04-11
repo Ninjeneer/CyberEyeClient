@@ -2,7 +2,16 @@ import React from 'react'
 import { useExpanded, useSortBy, useTable } from 'react-table'
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 
-const Table = ({ columns, data, renderRowSubComponent }) => {
+type Props = {
+    columns: any[]
+    data: any[]
+    renderRowSubComponent?: Function
+
+    style?: {
+        headerStyle?: string
+    }
+}
+const Table = ({ columns, data, renderRowSubComponent, style }: Props) => {
     // Use the state and functions returned from useTable to build your UI
     const {
         getTableProps,
@@ -21,7 +30,9 @@ const Table = ({ columns, data, renderRowSubComponent }) => {
             <table {...getTableProps()} className='w-full text-left'>
                 <thead className='bg-bgLight border'>
                     {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        <tr {...headerGroup.getHeaderGroupProps([
+                            { className: style?.headerStyle }
+                        ])}>
                             {headerGroup.headers.map((column: any) => (
                                 <th {...column.getHeaderProps(column.getSortByToggleProps())} className='p-2'>
                                     {column.render('Header')}

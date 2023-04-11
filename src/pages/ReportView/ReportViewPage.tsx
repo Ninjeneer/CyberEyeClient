@@ -25,7 +25,7 @@ const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
     )
 }
 
-const ScanResult = () => {
+const ReportViewPage = () => {
     const [report, setReport] = useState<Report>(null)
     const { state: scan } = useLocation() as { state: Scan & { reportId: string } }
     const session = useAuth()
@@ -52,7 +52,7 @@ const ScanResult = () => {
     }, [scan])
 
     return scan && report ? (
-        <Page pageTitle="Rapport de scan">
+        <Page pageTitle="Rapport de scan" canGoPrevious>
             <Section name="Résumé">
                 <div className="flex flex-col lg:flex-row justify-around gap-4 lg:gap-0">
                     <SummaryEntry name="Nombre de sondes" value={report?.nbProbes} />
@@ -76,4 +76,4 @@ const ScanResult = () => {
     ) : null
 }
 
-export default ScanResult
+export default ReportViewPage
