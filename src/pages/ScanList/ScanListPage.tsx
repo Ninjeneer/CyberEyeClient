@@ -13,6 +13,7 @@ import style from './Style.module.css'
 import { useAuth } from "../../contexts/Auth"
 import { BiLinkExternal } from 'react-icons/bi'
 import cronParser from 'cron-parser'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 type ScanEntryProps = {
 	scan: Scan
@@ -66,7 +67,9 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 						</span>
 					) : scan.status === ScanStatus.PENDING ? (
 						<GiSandsOfTime />
-					) : null
+					) : (
+						<PulseLoader color="#0094FF" speedMultiplier={0.5} size={10} className="mr-2"/>
+					)
 				}
 			</div>
 		</div>
@@ -132,7 +135,7 @@ const ScanListPage = () => {
 	})
 
 	return (
-		<Page pageTitle="Mes rapports">
+		<Page pageTitle="Mes scans">
 			<Section name={`En cours (${runningScans.length})`}>
 				{(runningScans || []).map((scan) => <ScanEntry scan={scan} key={`running_${scan.id}`} />)}
 			</Section>

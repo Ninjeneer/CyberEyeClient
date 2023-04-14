@@ -25,7 +25,7 @@ const Footer = ({ data, disabled }: FooterProps) => {
 
     return (
         <div className="flex justify-center w-full">
-            <Button text="Valider" type="primary" onClick={confirm} disabled={disabled} />
+            <Button type="primary" onClick={confirm} disabled={disabled}>Valider</Button>
         </div>
     )
 }

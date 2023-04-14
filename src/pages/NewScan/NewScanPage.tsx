@@ -23,7 +23,7 @@ const Footer = ({ disabled, data }: FooterProps) => {
 
 	return (
 		<div className="flex justify-center w-full">
-			<Button text="Suivant" type="primary" onClick={goToConfirm} disabled={disabled} />
+			<Button type="primary" onClick={goToConfirm} disabled={disabled}>Suivant</Button>
 		</div>
 	)
 }
@@ -82,7 +82,7 @@ const NewScanPage = () => {
 			</div>
 
 			<Section name="Sondes disponibles">
-				<div className="flex flex-col gap-2 lg:flex-row">
+				<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
 					{availableProbes.map((probe) => (
 						<ProbeInfo
 							probe={probe}

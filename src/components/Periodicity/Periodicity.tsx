@@ -13,14 +13,15 @@ const Periodicity = ({ onChange }: Props) => {
         <div className='flex flex-col gap-2 lg:flex-row'>
             {availablePeriodicities.map((periodicity) => (
                 <Button
-                    text={periodicity.label}
                     type={selected === periodicity.cron ? 'primary' : 'secondary'}
                     onClick={() => {
                         setSelected(periodicity.cron)
                         onChange(periodicity.cron)
                     }}
                     key={periodicity.cron}
-                />
+                >
+                    {periodicity.label}
+                </Button>
             ))}
         </div>
     )

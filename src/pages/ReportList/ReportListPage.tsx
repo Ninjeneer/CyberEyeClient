@@ -35,7 +35,7 @@ const ReportListPage = () => {
     ], [])
 
     return (
-        <Page pageTitle="Mes scans">
+        <Page pageTitle="Mes rapports">
             <Table 
                 columns={tableHeaders} 
                 data={tableData} 

@@ -2,21 +2,21 @@ import style from './Style.module.css'
 import cx from 'classnames'
 
 type Props = {
-    text: string
+    children: React.ReactNode
     type: 'primary' | 'secondary',
     onClick?: () => void
     disabled?: boolean
     size?: 'small' | 'base' | 'big'
 }
 
-const Button = ({ text, type, onClick, disabled, size = 'base' }: Props) => {
+const Button = ({ children, type, onClick, disabled, size = 'base' }: Props) => {
     return (
         <button
             onClick={onClick}
             className={cx(style[type], style.button, style[size])}
             disabled={disabled}
         >
-            {text}
+            {children}
         </button>
     )
 }

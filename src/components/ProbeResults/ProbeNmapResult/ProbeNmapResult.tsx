@@ -65,7 +65,9 @@ const ProbeNmapResult = ({ result }: Props) => {
 							const cves = row.original.cves
 							return cves?.length > 0 ? (
 								<span {...row.getToggleRowExpandedProps()} title="">
-									<Button type="secondary" text={row.isExpanded ? 'Fermer' : `Voir (${cves.length})`} size="small" />
+									<Button type="secondary" size="small">
+										{row.isExpanded ? 'Fermer' : `Voir (${cves.length})`}
+									</Button>
 								</span>
 							) : <p>Aucune</p>
 						}

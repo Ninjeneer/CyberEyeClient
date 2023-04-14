@@ -33,12 +33,13 @@ const ProbeInfo = ({ probe, selectable, onChange }: Props) => {
 					selectable ? (
 						<Button
 							type='primary'
-							text={isSelected ? 'Supprimer' : 'Ajouter'}
 							onClick={() => {
 								setIsSelected(!isSelected)
 								onChange && onChange(probe)
 							}}
-						/>
+						>
+							{isSelected ? 'Supprimer' : 'Ajouter'}
+						</Button>
 					) : null
 				}
 			</footer >
