@@ -7,19 +7,32 @@ import { format } from 'date-fns'
 import { BsChevronRight } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import cx from 'classnames'
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { sortByDate } from "../../utils/scanUtils"
 import style from './Style.module.css'
 import { useAuth } from "../../contexts/Auth"
+import { BiLinkExternal } from 'react-icons/bi'
+import cronParser from 'cron-parser'
 
 type ScanEntryProps = {
 	scan: Scan
 }
 const ScanEntry = ({ scan }: ScanEntryProps) => {
 	const navigate = useNavigate()
+	const session = useAuth()
+
 	const goToReport = () => {
-		navigate(`/scans/${scan.id}`, { state: { ...scan, reportId: scan.lastReportId } })
+		if (scan.notification) {
+			api.authenticated(session).scans.updateScan(scan.id, { notification: false }).then()
+		}
+		navigate(`/reports/${scan.lastReportId}`)
 	}
+
+	const nextScan = useMemo(() => {
+		const interval = cronParser.parseExpression(scan.periodicity)
+		const nextDate = interval.next().toDate()
+		return format(nextDate, 'dd / MM / yyyy')
+	}, [scan])
 
 	return (
 		<div
@@ -32,14 +45,28 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 			}
 			onClick={scan.status === ScanStatus.FINISHED ? goToReport : null}
 		>
-			<h2 className="flex-1">{scan.target}</h2>
-			<div className="flex-1">
-				Créé le : {format(new Date(scan.createdAt), 'dd / MM / yyyy - HH:mm:ss')}
+			<h2 className="flex-1 flex flex-col">
+				<label className="styled-label">Cible</label>
+				{scan.target}
+			</h2>
+
+			<div className="flex-1 flex flex-col">
+				<label className="styled-label">Prochain lancement</label>
+				{nextScan}
 			</div>
+
 			<div className="flex flex-1 justify-end">
 				{
-					scan.status === ScanStatus.FINISHED ? <BsChevronRight /> :
-						scan.status === ScanStatus.PENDING ? <GiSandsOfTime /> : null
+					scan.status === ScanStatus.FINISHED ? (
+						<span className="flex items-center gap-6">
+							<Link to={`/reports/${scan.lastReportId}`} className="link">
+								Voir le dernier rapport <BiLinkExternal className="inline" />
+							</Link>
+							<BsChevronRight />
+						</span>
+					) : scan.status === ScanStatus.PENDING ? (
+						<GiSandsOfTime />
+					) : null
 				}
 			</div>
 		</div>
@@ -105,7 +132,7 @@ const ScanListPage = () => {
 	})
 
 	return (
-		<Page pageTitle="Mes scans">
+		<Page pageTitle="Mes rapports">
 			<Section name={`En cours (${runningScans.length})`}>
 				{(runningScans || []).map((scan) => <ScanEntry scan={scan} key={`running_${scan.id}`} />)}
 			</Section>

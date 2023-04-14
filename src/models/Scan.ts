@@ -13,6 +13,7 @@ export type Scan = {
 	status: ScanStatus;
 	notification: boolean;
 	lastReportId?: string;
+	periodicity: string
 }
 
 export enum ScanStatus {

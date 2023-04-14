@@ -25,22 +25,22 @@ const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
     )
 }
 
-const ScanResult = () => {
+const ReportViewPage = () => {
     const [report, setReport] = useState<Report>(null)
-    const { state: scan } = useLocation() as { state: Scan & { reportId: string } }
     const session = useAuth()
+    const location = useLocation()
 
-    useEffect(() => {
-        if (scan.notification) {
-            api.authenticated(session).scans.updateScan(scan.id, { notification: false }).then()
-        }
-    }, [scan])
+    const reportId = useMemo(() => location.pathname?.split('/').at(-1), [])
+
+    // useEffect(() => {
+    //     if (scan.notification) {
+    //         api.authenticated(session).scans.updateScan(scan.id, { notification: false }).then()
+    //     }
+    // }, [scan])
 
     useMemo(() => {
-        if (!scan) {
-            return
-        }
-        api.authenticated(session).reports.getReportById(scan.lastReportId).then(async (res) => {
+        // Pull the Supabase Report to get the MongoDB reportId
+        api.authenticated(session).reports.getReportById(reportId).then(async (res) => {
             if (res.data) {
                 api.authenticated(session).reports.getReportResultsById(res.data.reportId).then(async (resultRes) => {
                     if (res.status === StatusCodes.OK) {
@@ -49,15 +49,15 @@ const ScanResult = () => {
                 })
             }
         })
-    }, [scan])
+    }, [])
 
-    return scan && report ? (
-        <Page pageTitle="Rapport de scan">
+    return report ? (
+        <Page pageTitle="Rapport de scan" canGoPrevious>
             <Section name="Résumé">
                 <div className="flex flex-col lg:flex-row justify-around gap-4 lg:gap-0">
                     <SummaryEntry name="Nombre de sondes" value={report?.nbProbes} />
                     <SummaryEntry name="Durée" value={secondsToTimeString(report.totalTime * 1000)} />
-                    <SummaryEntry name="Demandé le" value={format(new Date(scan?.createdAt), 'dd / MM / yyy - hh:mm')} />
+                    <SummaryEntry name="Demandé le" value={format(new Date(), 'dd / MM / yyy - hh:mm')} />
                 </div>
             </Section>
 
@@ -76,4 +76,4 @@ const ScanResult = () => {
     ) : null
 }
 
-export default ScanResult
+export default ReportViewPage

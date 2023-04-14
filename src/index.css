@@ -23,15 +23,12 @@ body,
 
 }
 
-* {
-  color: @apply text-primary
-}
-
 .inputGroup {
   @apply flex flex-col
 }
 
-.inputGroup label {
+.inputGroup label,
+.styled-label {
   @apply text-sm text-gray-700 mb-1;
   text-transform: uppercase;
 }

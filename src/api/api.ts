@@ -34,7 +34,7 @@ export default {
                     }).then((res) => res.json())
                 },
                 getScans: () => {
-                    return supabaseClient.from('scans').select('*')
+                    return supabaseClient.from('scans').select('*, probes(scanId)')
                 },
                 getScan: (id: string) => {
                     return supabaseClient.from('scans').select('*').eq('id', id).single()
@@ -58,6 +58,9 @@ export default {
                 },
             },
             reports: {
+                getReports: () => {
+                    return supabaseClient.from('reports').select<string, SupabaseReport>('*, scans!reports_scanId_fkey(*)').order('createdAt', { ascending: false })
+                },
                 getReportById: (id: string) => {
                     return supabaseClient.from('reports').select<string, SupabaseReport>('*').eq('id', id).single()
                 },

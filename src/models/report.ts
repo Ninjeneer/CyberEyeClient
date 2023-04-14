@@ -1,3 +1,5 @@
+import { Scan } from "./Scan";
+
 export type ProbeResult<T = any> = {
 	context: {
 		probeName: string;
@@ -22,4 +24,6 @@ export type SupabaseReport = {
 	reportId: string;
 	scanId: string;
 	userId: string;
+	scans?: Scan
+	createdAt: Date
 }

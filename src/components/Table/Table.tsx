@@ -1,8 +1,49 @@
 import React from 'react'
-import { useExpanded, useSortBy, useTable } from 'react-table'
+import { Row, useExpanded, useSortBy, useTable } from 'react-table'
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import cx from 'classnames'
 
-const Table = ({ columns, data, renderRowSubComponent }) => {
+
+
+
+
+
+const TableHeader = ({ headerGroups, style }) => {
+    return (
+        <thead className='bg-bgLight border'>
+        {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps([
+                { className: style?.headerStyle }
+            ])}>
+                {headerGroup.headers.map((column: any) => (
+                    <th {...column.getHeaderProps(column.getSortByToggleProps())} className='p-2'>
+                        {column.render('Header')}
+                        <span>
+                            {column.isSorted
+                                ? column.isSortedDesc
+                                    ? <TiArrowSortedDown className='ml-1 inline'/>
+                                    : <TiArrowSortedUp className='ml-1 inline' />
+                                : ''}
+                        </span>
+                    </th>
+                ))}
+            </tr>
+        ))}
+    </thead>
+    )
+}
+
+
+type Props = {
+    columns: any[]
+    data: any[]
+    renderRowSubComponent?: Function
+
+    style?: {
+        headerStyle?: string
+    }
+}
+const Table = ({ columns, data, renderRowSubComponent, style }: Props) => {
     // Use the state and functions returned from useTable to build your UI
     const {
         getTableProps,
@@ -19,31 +60,22 @@ const Table = ({ columns, data, renderRowSubComponent }) => {
     return (
         <>
             <table {...getTableProps()} className='w-full text-left'>
-                <thead className='bg-bgLight border'>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column: any) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())} className='p-2'>
-                                    {column.render('Header')}
-                                    <span>
-                                        {column.isSorted
-                                            ? column.isSortedDesc
-                                                ? <TiArrowSortedDown className='ml-1 inline'/>
-                                                : <TiArrowSortedUp className='ml-1 inline' />
-                                            : ''}
-                                    </span>
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
+                <TableHeader headerGroups={headerGroups} style={style} />
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row: any, i) => {
+                    {rows.map((row: Row & { isExpanded: boolean }, i) => {
+                        const originalData = row.original as any
+
                         prepareRow(row)
                         return (
                             // Use a React.Fragment here so the table markup is still valid
                             <React.Fragment key={i}>
-                                <tr className='border border-collapse'>
+                                <tr 
+                                    className={cx(
+                                        'border border-collapse', 
+                                        originalData.onClick ? 'hover:bg-primary hover:bg-opacity-5 hover:cursor-pointer duration-300' : null
+                                    )} 
+                                    onClick={originalData.onClick ? originalData.onClick : null}
+                                >
                                     {row.cells.map(cell => {
                                         return (
                                             <td {...cell.getCellProps()} className='p-2'>{cell.render('Cell')}</td>

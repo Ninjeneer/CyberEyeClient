@@ -6,12 +6,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DashboardPage from './pages/Dashboard/DashboardPage'
 import NewScanPage from './pages/NewScan/NewScanPage'
 import ConfirmScanPage from './pages/ConfirmScan/ConfirmScanPage'
-import ScanListPage from './pages/ScanList/ScanListPage'
-import ScanResult from './pages/ScanResult/ScanResultPage'
+import ReportsListPage from './pages/ReportList/ReportListPage'
+import ReportViewPage from './pages/ReportView/ReportViewPage'
 import LoginPage from './pages/Login/LoginPage'
 import RegisterPage from './pages/Register/RegisterPage'
 import { AuthProvider } from './contexts/Auth'
 import { PrivateRoute } from './PrivateRoute'
+import ScanListPage from './pages/ScanList/ScanListPage'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -26,8 +27,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <Route path='/' element={<DashboardPage />} />
               <Route path='/new-scan' element={<NewScanPage />} />
               <Route path='/confirm-scan' element={<ConfirmScanPage />} />
+              <Route path='/reports' element={<ReportsListPage />} />
+              <Route path='/reports/:id' element={<ReportViewPage />} />
               <Route path='/scans' element={<ScanListPage />} />
-              <Route path='/scans/:id' element={<ScanResult />} />
             </Route>
           </Route>
         </Routes>
