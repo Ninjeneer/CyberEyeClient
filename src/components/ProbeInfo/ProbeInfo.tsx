@@ -15,10 +15,10 @@ const ProbeInfo = ({ probe, selectable, onChange }: Props) => {
 
 	return (
 		<div className={cx(
-			"p-2 border-2 rounded w-full flex flex-col justify-between",
+			"p-2 border-2 rounded w-full flex flex-col gap-4 justify-between",
 			isSelected && 'border-l-primary border-l-4',
 		)}>
-			<div>
+			<div className="flex flex-col gap-2">
 				<header>
 					<h2 className="text-xl">{probeNameMapping[probe.name]}</h2>
 				</header >

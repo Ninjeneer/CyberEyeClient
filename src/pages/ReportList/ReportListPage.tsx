@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
 import Page from "../../components/Page/Page"
-import { Scan } from "../../models/Scan"
 import api from "../../api/api"
 import { useAuth } from "../../contexts/Auth"
 import Table from "../../components/Table/Table"
