@@ -1,15 +1,14 @@
 import { useMemo, useState } from "react"
 import Page from "../../components/Page/Page"
-import Section from "../../components/Section/Section"
-import ProbeInfo from "../../components/ProbeInfo/ProbeInfo"
 import Button from "../../components/Button/Button"
-import Periodicity from "../../components/Periodicity/Periodicity"
 import { Probe } from "../../models/Probe"
 import { useNavigate } from "react-router-dom"
 import { ScanSettings } from "../../models/Scan"
 import api from "../../api/api"
 import { StatusCodes } from "http-status-codes"
 import { useAuth } from "../../contexts/Auth"
+import ScanEdit from "../../components/ScanEdit/ScanEdit"
+import { isScanSettingValid } from "../../utils/scan.utils"
 
 type FooterProps = {
 	disabled: boolean
@@ -29,11 +28,8 @@ const Footer = ({ disabled, data }: FooterProps) => {
 }
 
 const NewScanPage = () => {
-	const [target, setTarget] = useState('')
 	const [availableProbes, setAvailableProbes] = useState<Probe[]>([])
-	const [selectedProbes, setSelectedProbes] = useState<Probe[]>([])
-	const [periodicity, setPeriodicity] = useState('')
-
+	const [scanSettings, setScanSettings] = useState<ScanSettings>({} as ScanSettings)
 	const session = useAuth()
 
 	useMemo(() => {
@@ -44,19 +40,8 @@ const NewScanPage = () => {
 		})
 	}, [])
 
-	const isSettingsValid = useMemo(() => {
-		return target && selectedProbes.length > 0 && periodicity
-	}, [target, selectedProbes, periodicity])
 
-	const onProbeChange = (probe: Probe) => {
-		if (selectedProbes.find((selectedProbe) => selectedProbe.name === probe.name)) {
-			setSelectedProbes(selectedProbes.filter((selectedProbe) => selectedProbe.name !== probe.name))
-		} else {
-			setSelectedProbes([...selectedProbes, probe])
-		}
-	}
-
-
+	const isSettingsValid = useMemo(() => isScanSettingValid(scanSettings), [scanSettings])
 
 	return (
 		<Page
@@ -64,40 +49,11 @@ const NewScanPage = () => {
 			footer={
 				<Footer
 					disabled={!isSettingsValid}
-					data={{
-						target, probes: selectedProbes, periodicity
-					}}
+					data={scanSettings}
 				/>
 			}
 		>
-			<div className="inputGroup">
-				<label>Cible du scan</label>
-				<input
-					type="text"
-					value={target}
-					onChange={(e) => setTarget(e.target.value)}
-					placeholder="Nom de domaine ou adresse IP"
-					className="w-full"
-				/>
-			</div>
-
-			<Section name="Sondes disponibles">
-				<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
-					{availableProbes.map((probe) => (
-						<ProbeInfo
-							probe={probe}
-							key={probe.name}
-							selectable={true}
-							onChange={onProbeChange}
-						/>
-					))}
-
-				</div>
-			</Section>
-
-			<Section name="Périodicité">
-				<Periodicity onChange={setPeriodicity} />
-			</Section>
+			<ScanEdit availableProbes={availableProbes} onChange={setScanSettings} />
 		</Page>
 	)
 }

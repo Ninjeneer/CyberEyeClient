@@ -8,13 +8,12 @@ import { BsChevronRight } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import cx from 'classnames'
 import { Link, useNavigate } from "react-router-dom"
-import { sortByDate } from "../../utils/scanUtils"
+import { sortByDate } from "../../utils/scan.utils"
 import style from './Style.module.css'
 import { useAuth } from "../../contexts/Auth"
 import { BiLinkExternal } from 'react-icons/bi'
 import cronParser from 'cron-parser'
 import PulseLoader from 'react-spinners/PulseLoader'
-import Button from "../../components/Button/Button"
 
 
 type ScanEntryProps = {
@@ -26,9 +25,9 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 
 	const goToReport = () => {
 		if (scan.notification) {
-			api.authenticated(session).scans.updateScan(scan.id, { notification: false }).then()
+			api.authenticated(session).scans.liteUpdateScan(scan.id, { notification: false }).then()
 		}
-		navigate(`/reports/${scan.lastReportId}`)
+		navigate(`/scans/${scan.id}`)
 	}
 
 	const nextScan = useMemo(() => {
@@ -65,7 +64,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 				{
 					scan.status === ScanStatus.FINISHED ? (
 						<span className="flex items-center gap-6">
-							<Link to={`/reports/${scan.lastReportId}`} className="link">
+							<Link to={`/reports/${scan.lastReportId}`} className="link" onClick={(e) => e.stopPropagation()}>
 								Voir le dernier rapport <BiLinkExternal className="inline" />
 							</Link>
 							<BsChevronRight />

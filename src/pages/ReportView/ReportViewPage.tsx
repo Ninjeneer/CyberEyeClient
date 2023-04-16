@@ -14,6 +14,7 @@ import { useAuth } from "../../contexts/Auth"
 import Spinner from '../../components/Spinner/Spinner'
 import Button from "../../components/Button/Button"
 import { isProd } from "../../utils/utils"
+import { IoHammer } from 'react-icons/io5'
 
 
 type HeaderButtonsProps = {
@@ -26,7 +27,6 @@ const HeaderButtons = ({ reportId, onRebuild }: HeaderButtonsProps) => {
 
 	const rebuild = useCallback(() => {
 		setLoading(true)
-		console.log("🚀 ~ file: ReportViewPage.tsx:29 ~ api.authenticated ~ session:", session)
 		api.authenticated(session).reports.rebuildReport(reportId).then((res) => {
 			if (res.status === StatusCodes.OK) {
 				onRebuild()
@@ -36,7 +36,7 @@ const HeaderButtons = ({ reportId, onRebuild }: HeaderButtonsProps) => {
 
 	return (
 		<div className="flex justify-end">
-			<Button type="primary" onClick={rebuild} disabled={loading}>{ loading ? <Spinner inverted size="small" /> : 'Rebuild report' }</Button>
+			<Button type="warning" onClick={rebuild} disabled={loading}>{ loading ? <Spinner inverted size="small" /> : <span className="flex items-center gap-2"><IoHammer /> Rebuild report</span> }</Button>
 		</div>
 	)
 }

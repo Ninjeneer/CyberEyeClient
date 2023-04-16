@@ -8,11 +8,10 @@ type Props = {
 	probe: Probe,
 	selectable?: boolean
 	onChange?: (probe: Probe) => void
+	isSelected?: boolean
 }
 
-const ProbeInfo = ({ probe, selectable, onChange }: Props) => {
-	const [isSelected, setIsSelected] = useState(false)
-
+const ProbeInfo = ({ probe, selectable, onChange, isSelected }: Props) => {
 	return (
 		<div className={cx(
 			"p-2 border-2 rounded w-full flex flex-col gap-4 justify-between",
@@ -34,7 +33,6 @@ const ProbeInfo = ({ probe, selectable, onChange }: Props) => {
 						<Button
 							type='primary'
 							onClick={() => {
-								setIsSelected(!isSelected)
 								onChange && onChange(probe)
 							}}
 						>
