@@ -14,6 +14,8 @@ import { useAuth } from "../../contexts/Auth"
 import { BiLinkExternal } from 'react-icons/bi'
 import cronParser from 'cron-parser'
 import PulseLoader from 'react-spinners/PulseLoader'
+import Button from "../../components/Button/Button"
+
 
 type ScanEntryProps = {
 	scan: Scan
@@ -30,6 +32,9 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 	}
 
 	const nextScan = useMemo(() => {
+		if (scan.periodicity === 'ONCE') {
+			return 'Jamais'
+		}
 		const interval = cronParser.parseExpression(scan.periodicity)
 		const nextDate = interval.next().toDate()
 		return format(nextDate, 'dd / MM / yyyy')

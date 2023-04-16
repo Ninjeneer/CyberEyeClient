@@ -7,8 +7,8 @@ const sizes: Record<Props['size'], number> = {
 }
 
 type Props = {
-    inverted: boolean
-    size: 'big' | 'small'
+    inverted?: boolean
+    size?: 'big' | 'small'
 }
 const Spinner = ({ inverted = false, size = 'big' }: Props) => {
     return (

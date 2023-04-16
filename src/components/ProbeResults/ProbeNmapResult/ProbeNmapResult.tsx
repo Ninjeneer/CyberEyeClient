@@ -62,60 +62,21 @@ const ProbeNmapResult = ({ result }: Props) => {
 						Header: 'Vulnérabilité', // No header
 						id: 'expander', // It needs an ID
 						Cell: ({ row }) => {
-							const cves = row.original.cves
+							const service: NmapService = row.original
+							const cves = service.cves
 							return cves?.length > 0 ? (
 								<span {...row.getToggleRowExpandedProps()} title="">
 									<Button type="secondary" size="small">
 										{row.isExpanded ? 'Fermer' : `Voir (${cves.length})`}
 									</Button>
 								</span>
-							) : <p>Aucune</p>
+							) : <p>{ service.version ? 'Aucune' : 'Impossible de récupérer la version du service' }</p>
 						}
 					},
 				]}
 				data={tableData}
 				renderRowSubComponent={(row) => <RowCVE cves={row.row.original.cves} />}
 			/>
-
-
-			{/* <table className="w-full">
-				<thead className="text-left">
-					<tr>
-						<th>Port</th>
-						<th>Service</th>
-						<th>Vulnérabilités (CVE)</th>
-					</tr>
-				</thead>
-				<tbody>
-					{
-						result.result.map((service) => (
-							<tr>
-								<td>{service.port}</td>
-								<td>{buildServiceName(service)}</td>
-								<td>
-									{ service.cves?.length > 0 ? <a>Voir</a> : <p>Aucune</p>}
-								</td>
-							</tr>
-						))
-					}
-				</tbody>
-			</table> */}
-			{/* <div className="flex">
-				<div className="flex flex-col flex-1">
-
-				</div>
-
-				{selected ? (
-					<div className="flex flex-col flex-1 border-l gap-2 p-2">
-						{selected.cves.map((cve) => (
-							<div>
-								<label>{cve.id}</label>
-								<p className="ml-4 text-sm">{cve.descriptions}</p>
-							</div>
-						))}
-					</div>
-				) : null}
-			</div> */}
 		</ProbeResultContainer>
 	)
 }

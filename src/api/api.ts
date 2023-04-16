@@ -70,6 +70,14 @@ export default {
                             'authorization': user.access_token
                         }
                     })
+                },
+                rebuildReport: (id: string) => {
+                    return fetch(`${constants.reportServiceURL}/reports/${id}/rebuild`, {
+                        method: 'POST',
+                        headers: {
+                            'authorization': user.access_token
+                        }
+                    })
                 }
             }
         }

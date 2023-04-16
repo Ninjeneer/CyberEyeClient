@@ -4,4 +4,6 @@ export default {
 
     supabaseURL: import.meta.env.VITE_SUPABASE_URL,
     supabaseKey: import.meta.env.VITE_SUPABASE_KEY,
+
+    nodeEnv: import.meta.env.VITE_NODE_ENV || 'production'
 }

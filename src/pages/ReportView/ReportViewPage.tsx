@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import Page from "../../components/Page/Page"
 import Section from "../../components/Section/Section"
 import { useLocation, useParams } from "react-router-dom"
@@ -12,6 +12,35 @@ import { getProbeResultComponent } from "../../components/ProbeResults/probeSele
 import React from "react"
 import { useAuth } from "../../contexts/Auth"
 import Spinner from '../../components/Spinner/Spinner'
+import Button from "../../components/Button/Button"
+import { isProd } from "../../utils/utils"
+
+
+type HeaderButtonsProps = {
+	reportId: string
+	onRebuild?: Function
+}
+const HeaderButtons = ({ reportId, onRebuild }: HeaderButtonsProps) => {
+	const [loading, setLoading] = useState(false)
+	const session = useAuth()
+
+	const rebuild = useCallback(() => {
+		setLoading(true)
+		console.log("🚀 ~ file: ReportViewPage.tsx:29 ~ api.authenticated ~ session:", session)
+		api.authenticated(session).reports.rebuildReport(reportId).then((res) => {
+			if (res.status === StatusCodes.OK) {
+				onRebuild()
+			}
+		}).finally(() => setLoading(false))
+	}, [session])
+
+	return (
+		<div className="flex justify-end">
+			<Button type="primary" onClick={rebuild} disabled={loading}>{ loading ? <Spinner inverted size="small" /> : 'Rebuild report' }</Button>
+		</div>
+	)
+}
+
 
 type SummaryEntryProps = {
 	name: string
@@ -39,7 +68,7 @@ const ReportViewPage = () => {
 	//     }
 	// }, [scan])
 
-	useMemo(() => {
+	const fetchReport = useCallback(() => {
 		// Pull the Supabase Report to get the MongoDB reportId
 		api.authenticated(session).reports.getReportById(reportId).then(async (res) => {
 			if (res.data) {
@@ -50,10 +79,14 @@ const ReportViewPage = () => {
 				})
 			}
 		})
-	}, [])
+	}, [reportId])
+
+	useEffect(() => fetchReport(), [])
 
 	return report ? (
 		<Page pageTitle="Rapport de scan" canGoPrevious>
+			{ !isProd() ? <HeaderButtons reportId={reportId} onRebuild={fetchReport} /> : null }
+
 			<Section name="Résumé">
 				<div className="flex flex-col lg:flex-row justify-around gap-4 lg:gap-0">
 					<SummaryEntry name="Nombre de sondes" value={report?.nbProbes} />
