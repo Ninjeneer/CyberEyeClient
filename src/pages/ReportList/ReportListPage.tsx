@@ -29,7 +29,7 @@ const ReportListPage = () => {
     }, [reports])
 
     const tableHeaders = useMemo(() => [
-        { Header: 'Cible du scan', accessor: 'scans.target' },
+        { Header: 'Cible du scan', accessor: 'target' },
         { Header: 'Date du rapport', accessor: 'createdAt'},
     ], [])
 

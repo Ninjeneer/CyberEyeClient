@@ -1,21 +1,20 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { availablePeriodicities } from '../../utils/cronUtils'
 import Button from '../Button/Button'
 
 type Props = {
     onChange: (value: string) => void
+    value?: string
 }
 
-const Periodicity = ({ onChange }: Props) => {
-    const [selected, setSelected] = useState(null)
+const Periodicity = ({ onChange, value }: Props) => {
 
     return (
         <div className='flex flex-col gap-2 lg:flex-row'>
             {availablePeriodicities.map((periodicity) => (
                 <Button
-                    type={selected === periodicity.cron ? 'primary' : 'secondary'}
+                    type={value === periodicity.cron ? 'primary' : 'secondary'}
                     onClick={() => {
-                        setSelected(periodicity.cron)
                         onChange(periodicity.cron)
                     }}
                     key={periodicity.cron}

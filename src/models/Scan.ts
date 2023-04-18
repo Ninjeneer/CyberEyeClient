@@ -2,7 +2,7 @@ import { Probe } from "./Probe"
 
 export type ScanSettings = {
 	target: string
-	probes: Probe[]
+	probes: Partial<Probe>[]
 	periodicity: string
 }
 
@@ -20,4 +20,8 @@ export enum ScanStatus {
 	PENDING = 'PENDING',
 	RUNNING = 'RUNNING',
 	FINISHED = 'FINISHED',
+}
+
+export type ScanWithProbes = Scan & {
+    probes: Probe[];
 }

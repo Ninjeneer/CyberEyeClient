@@ -13,6 +13,7 @@ import RegisterPage from './pages/Register/RegisterPage'
 import { AuthProvider } from './contexts/Auth'
 import { PrivateRoute } from './PrivateRoute'
 import ScanListPage from './pages/ScanList/ScanListPage'
+import EditScanPage from './pages/EditScan/EditScanPage'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -30,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <Route path='/reports' element={<ReportsListPage />} />
               <Route path='/reports/:id' element={<ReportViewPage />} />
               <Route path='/scans' element={<ScanListPage />} />
+              <Route path='/scans/:id' element={<EditScanPage />} />
             </Route>
           </Route>
         </Routes>

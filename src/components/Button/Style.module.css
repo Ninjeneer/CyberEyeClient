@@ -1,21 +1,25 @@
 .button {
     @apply px-4 py-2 rounded flex justify-center items-center;
-    transition-duration: 0.2s;
 }
 
 .primary {
     @apply bg-primary text-white;
-    transition-duration: 0.2s;
 }
 
 .secondary {
     @apply bg-white text-primary border border-primary;
-    transition-duration: 0.2s;
 }
 
 .secondary:hover {
     @apply bg-primary text-white;
-    transition-duration: 0.2s;
+}
+
+.warning {
+    @apply bg-warning text-white;
+}
+
+.danger {
+    @apply bg-danger text-white
 }
 
 .small {

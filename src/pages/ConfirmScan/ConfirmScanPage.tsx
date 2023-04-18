@@ -8,6 +8,7 @@ import { getPeriodicityLabelByValue } from "../../utils/cronUtils"
 import { useState } from "react"
 import api from "../../api/api"
 import { useAuth } from "../../contexts/Auth"
+import { toast } from "react-toastify"
 
 type FooterProps = {
     data: ScanSettings
@@ -19,6 +20,7 @@ const Footer = ({ data, disabled }: FooterProps) => {
 
     const confirm = () => {
         api.authenticated(session).scans.sendScanRequest(data).then((response) => {
+            toast('Scan créé avec succès !', { type: 'success' })
             navigate('/scans', { state: { id: response.id } })
         })
     }

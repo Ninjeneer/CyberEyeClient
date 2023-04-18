@@ -1,7 +1,7 @@
 import { RealtimePostgresChangesPayload, Session } from "@supabase/supabase-js";
 import constants from "../constants";
 import { SupabaseReport } from "../models/report";
-import { Scan, ScanSettings } from "../models/Scan";
+import { Scan, ScanSettings, ScanWithProbes } from "../models/Scan";
 import supabaseClient from './supabase'
 
 export default {
@@ -39,8 +39,23 @@ export default {
                 getScan: (id: string) => {
                     return supabaseClient.from('scans').select('*').eq('id', id).single()
                 },
-                updateScan: (id: string, payload: Partial<Scan>) => {
+                getScanWithProbes: (id: string, lite = false) => {
+                    return supabaseClient.from('scans').select(`*, probes(${lite ? 'name' : '*'})`).eq('id', id).single()
+                },
+                liteUpdateScan: (id: string, payload: Partial<Scan>) => {
                     return supabaseClient.from('scans').update(payload).eq('id', id)
+                },
+                updateScan: (id: string, scan: Partial<ScanSettings>) => {
+                    return fetch(`${constants.requestServiceURL}/scans/${id}`, {
+                        method: 'PATCH',
+                        body: JSON.stringify(scan),
+                        headers: {
+                            'authorization': user.access_token
+                        }
+                    })
+                },
+                deleteScan: (id: string) => {
+                    return supabaseClient.from('scans').delete({ count: 'exact' }).eq('id', id).single()
                 },
                 listenForScans: (onChange: (payload: RealtimePostgresChangesPayload<any>) => void) => {
                     supabaseClient.channel('scans')
