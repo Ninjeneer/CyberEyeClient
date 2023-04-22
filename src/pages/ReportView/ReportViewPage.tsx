@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import Page from "../../components/Page/Page"
 import Section from "../../components/Section/Section"
-import { useLocation, useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import api from "../../api/api"
 import { StatusCodes } from "http-status-codes"
-import { Report } from "../../models/report"
-import { Scan } from "../../models/Scan"
-import { format, intervalToDuration } from "date-fns"
+import { Report, SupabaseReport } from "../../models/report"
+import { format } from "date-fns"
 import { secondsToTimeString } from "../../utils/timeUtils"
 import { getProbeResultComponent } from "../../components/ProbeResults/probeSelector"
 import React from "react"
@@ -57,6 +56,7 @@ const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
 }
 
 const ReportViewPage = () => {
+	const [supabaseReport, setSupabaseReport] = useState<SupabaseReport>(null)
 	const [report, setReport] = useState<Report>(null)
 	const session = useAuth()
 	const location = useLocation()
@@ -73,6 +73,7 @@ const ReportViewPage = () => {
 		// Pull the Supabase Report to get the MongoDB reportId
 		api.authenticated(session).reports.getReportById(reportId).then(async (res) => {
 			if (res.data) {
+				setSupabaseReport(res.data)
 				api.authenticated(session).reports.getReportResultsById(res.data.reportId).then(async (resultRes) => {
 					if (res.status === StatusCodes.OK) {
 						setReport(await resultRes.json())
@@ -92,7 +93,7 @@ const ReportViewPage = () => {
 				<div className="flex flex-col lg:flex-row justify-around gap-4 lg:gap-0">
 					<SummaryEntry name="Nombre de sondes" value={report?.nbProbes} />
 					<SummaryEntry name="Durée" value={secondsToTimeString(report.totalTime * 1000)} />
-					<SummaryEntry name="Demandé le" value={format(new Date(), 'dd / MM / yyy - hh:mm')} />
+					<SummaryEntry name="Demandé le" value={format(new Date(supabaseReport.createdAt), 'dd / MM / yyyy à HH:mm')} />
 				</div>
 			</Section>
 
