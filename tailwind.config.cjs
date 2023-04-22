@@ -11,7 +11,8 @@ module.exports = {
 				primary: '#0094FF',
 				bgLight: '#F4F4F4',
 				danger: '#e74c3c',
-				warning: "#f39c12"
+				warning: "#f39c12",
+				lightGray: "#e5e7eb"
 			}
 		},
 		// colors: {
