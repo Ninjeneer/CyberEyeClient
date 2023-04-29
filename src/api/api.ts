@@ -3,6 +3,7 @@ import constants from "../constants";
 import { SupabaseReport } from "../models/report";
 import { Scan, ScanSettings, ScanWithProbes } from "../models/Scan";
 import supabaseClient from './supabase'
+import { UserSettings } from "../models/settings";
 
 export default {
     auth: {
@@ -20,7 +21,7 @@ export default {
             supabaseClient.auth.onAuthStateChange(callback)
         })
     },
-    authenticated: (user: Session) => {
+    authenticated: (session: Session) => {
         return {
             scans: {
                 sendScanRequest: async (scanSettings: ScanSettings) => {
@@ -28,7 +29,7 @@ export default {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'authorization': user.access_token
+                            'authorization': session.access_token
                         },
                         body: JSON.stringify(scanSettings)
                     }).then((res) => res.json())
@@ -50,7 +51,7 @@ export default {
                         method: 'PATCH',
                         body: JSON.stringify(scan),
                         headers: {
-                            'authorization': user.access_token
+                            'authorization': session.access_token
                         }
                     })
                 },
@@ -67,7 +68,7 @@ export default {
                 getAvailableProbes: () => {
                     return fetch(`${constants.requestServiceURL}/probes`, {
                         headers: {
-                            'authorization': user.access_token
+                            'authorization': session.access_token
                         }
                     })
                 },
@@ -82,7 +83,7 @@ export default {
                 getReportResultsById: (id: string) => {
                     return fetch(`${constants.reportServiceURL}/reports/${id}`, {
                         headers: {
-                            'authorization': user.access_token
+                            'authorization': session.access_token
                         }
                     })
                 },
@@ -90,11 +91,20 @@ export default {
                     return fetch(`${constants.reportServiceURL}/reports/${id}/rebuild`, {
                         method: 'POST',
                         headers: {
-                            'authorization': user.access_token
+                            'authorization': session.access_token
                         }
                     })
                 }
+            },
+            settings: {
+                getAll: () => {
+                    return supabaseClient.from('user_settings').select<string, UserSettings>('*', { }).eq('userId', session.user.id).maybeSingle()
+                },
+                update: (settings: Partial<UserSettings>) => {
+                    return supabaseClient.from('user_settings').upsert({ userId: session.user.id, ...settings }, { onConflict: 'userId'}).eq('userId', session.user.id)
+                }
             }
+
         }
     }
 }

@@ -1,0 +1,8 @@
+    .best {
+        height: calc(100% + 50px)
+    }
+
+    .item {
+        @apply ml-4;
+        list-style-type: disc;
+    }

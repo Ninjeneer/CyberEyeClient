@@ -82,7 +82,7 @@ const RegisterPage = () => {
 
 				<div className="flex flex-col gap-2">
 					<Button type="primary" onClick={handleRegister} disabled={loading}>S'inscrire</Button>
-					<NavLink to='/login' className='link'>Déjà inscrit ? <b>Connectez vous</b></NavLink>
+					<NavLink to='/select-plan' className='link'>Déjà inscrit ? <b>Connectez vous</b></NavLink>
 					{error ? <span className="text-danger">{error}</span> : null}
 				</div>
 			</section>

@@ -14,6 +14,7 @@ import { AuthProvider } from './contexts/Auth'
 import { PrivateRoute } from './PrivateRoute'
 import ScanListPage from './pages/ScanList/ScanListPage'
 import EditScanPage from './pages/EditScan/EditScanPage'
+import SelectPlanPage from './pages/SelectPlan/SelectPlan'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Routes>
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/select-plan' element={<SelectPlanPage />} />
 
           <Route path='/' element={<PrivateRoute />}>
             <Route path='/' element={<App />}>
