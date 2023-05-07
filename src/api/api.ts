@@ -105,11 +105,12 @@ export default {
                 }
             },
             billing: {
-                buyPlan: (priceId: string) => {
+                buyPlan: (priceId: string, isUpdate = false) => {
                     return fetch(`${constants.billingServiceURL}/checkout/sessions`, {
                         method: 'POST',
                         body: JSON.stringify({
-                            priceId
+                            priceId,
+                            isUpdate
                         }),
                         headers: {
                             'Content-Type': 'application/json',
