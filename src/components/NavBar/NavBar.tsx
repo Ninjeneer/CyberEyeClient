@@ -29,7 +29,7 @@ const NavBar = () => {
 	const isMenuTogglable = useMemo(() => windowSize.width < MD_WIDTH, [windowSize.width])
 
 	return (
-		<nav className="flex md:h-full border-b border-b-primary md:border-b-0 md:border-r-primary border-r">
+		<nav className={cx("flex md:h-full border-b border-b-primary md:border-b-0 md:border-r-primary border-r", style.nav)}>
 			<div className="flex flex-col w-full md:justify-between py-2">
 				<div className="flex items-center justify-between md:justify-start">
 					<img src={logo} className={style.icon} />

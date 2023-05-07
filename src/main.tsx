@@ -14,6 +14,10 @@ import { AuthProvider } from './contexts/Auth'
 import { PrivateRoute } from './PrivateRoute'
 import ScanListPage from './pages/ScanList/ScanListPage'
 import EditScanPage from './pages/EditScan/EditScanPage'
+import SelectPlanPage from './pages/SelectPlan/SelectPlan'
+import SettingsPage from './pages/Settings/SettingsPage'
+import CheckoutSuccessPage from './pages/Checkout/CheckoutSuccess'
+import CheckoutCancelPage from './pages/Checkout/CheckoutCancel'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -22,6 +26,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Routes>
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/select-plan' element={<SelectPlanPage />} />
+
+          <Route path='/checkout/success' element={<CheckoutSuccessPage />} />
+          <Route path='/checkout/cancel' element={<CheckoutCancelPage />} />
 
           <Route path='/' element={<PrivateRoute />}>
             <Route path='/' element={<App />}>
@@ -32,6 +40,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <Route path='/reports/:id' element={<ReportViewPage />} />
               <Route path='/scans' element={<ScanListPage />} />
               <Route path='/scans/:id' element={<EditScanPage />} />
+              <Route path='/settings' element={<SettingsPage />} />
             </Route>
           </Route>
         </Routes>

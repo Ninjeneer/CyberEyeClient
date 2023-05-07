@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 type Props = {
     children: React.ReactNode
-    type: 'primary' | 'secondary' | 'warning' | 'danger',
+    type: 'primary' | 'secondary' | 'warning' | 'danger' | 'success',
     onClick?: () => void
     disabled?: boolean
     size?: 'small' | 'base' | 'big'

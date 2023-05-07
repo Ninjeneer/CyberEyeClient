@@ -22,6 +22,10 @@
     @apply bg-danger text-white
 }
 
+.success {
+    @apply bg-success text-white
+}
+
 .small {
     @apply px-1 py-0
 }

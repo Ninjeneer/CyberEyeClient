@@ -12,7 +12,8 @@ module.exports = {
 				bgLight: '#F4F4F4',
 				danger: '#e74c3c',
 				warning: "#f39c12",
-				lightGray: "#e5e7eb"
+				lightGray: "#e5e7eb",
+				success: "#27ae60"
 			}
 		},
 		// colors: {

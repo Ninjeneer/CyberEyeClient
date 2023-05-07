@@ -49,7 +49,7 @@ const LoginPage = () => {
 						<input
 							type="email"
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							onChange={(e) => setEmail(e.target.value?.toLocaleLowerCase())}
 							placeholder="Entrez votre adresse e-mail"
 							disabled={loading}
 							onKeyDown={(e) => handleEnterKey(e, handleLogin)}

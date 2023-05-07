@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "naumovs.color-highlight",
-        "meganrogge.template-string-converter"
+        "meganrogge.template-string-converter",
+        "bradlc.vscode-tailwindcss"
     ]
 }
