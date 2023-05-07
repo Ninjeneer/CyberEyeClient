@@ -6,7 +6,7 @@
     transition-duration: 0.2s;
 }
 
-nav {
+.nav {
     background: linear-gradient(to right,
             #0094FF 0%,
             #0094FF 60px,

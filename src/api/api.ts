@@ -98,13 +98,26 @@ export default {
             },
             settings: {
                 getAll: () => {
-                    return supabaseClient.from('user_settings').select<string, UserSettings>('*', { }).eq('userId', session.user.id).maybeSingle()
+                    return supabaseClient.from('user_settings').select<string, UserSettings>('*', {}).eq('userId', session.user.id).maybeSingle()
                 },
                 update: (settings: Partial<UserSettings>) => {
-                    return supabaseClient.from('user_settings').upsert({ userId: session.user.id, ...settings }, { onConflict: 'userId'}).eq('userId', session.user.id)
+                    return supabaseClient.from('user_settings').upsert({ userId: session.user.id, ...settings }, { onConflict: 'userId' }).eq('userId', session.user.id)
+                }
+            },
+            billing: {
+                buyPlan: (priceId: string) => {
+                    return fetch(`${constants.billingServiceURL}/checkout/sessions`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            priceId
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': session.access_token
+                        }
+                    })
                 }
             }
-
         }
     }
 }

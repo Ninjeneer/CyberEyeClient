@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from 'react'
+import React, { useContext, useState, useMemo, useEffect } from 'react'
 import supabase from '../api/supabase'
 import { Session, User } from '@supabase/supabase-js'
 import { UserSettings } from '../models/settings'
@@ -20,12 +20,12 @@ export function AuthProvider({ children }) {
 
     useMemo(async () => {
         // Check active sessions and sets the user
-        const session = await supabase.auth.getSession()
-        const extendedSession: ExtendedSession = session?.data?.session
+        const supabaseSession = await supabase.auth.getSession()
+        const extendedSession: ExtendedSession = supabaseSession?.data?.session
 
         if (extendedSession) {
             try {
-                const settings = await api.authenticated(session.data.session).settings.getAll()
+                const settings = await api.authenticated(supabaseSession.data.session).settings.getAll()
                 if (settings.data) {
                     extendedSession.user.settings = settings.data
                 }
@@ -42,6 +42,7 @@ export function AuthProvider({ children }) {
             const extendedSession: ExtendedSession = session
             if (extendedSession) {
                 const settings = await api.authenticated(session).settings.getAll()
+                console.log("🚀 ~ file: Auth.tsx:45 ~ const{data:listener}=supabase.auth.onAuthStateChange ~ settings:", settings)
                 if (settings.data) {
                     extendedSession.user.settings = settings.data
                 }
@@ -49,6 +50,20 @@ export function AuthProvider({ children }) {
             setSession(extendedSession ?? null)
             setLoading(false)
         })
+
+        // Listen for changes in settings
+        supabase.channel('user_settings')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'user_settings' }, (change) => {
+                setSession({
+                    ...extendedSession,
+                    user: {
+                        ...extendedSession.user,
+                        settings: change.new as UserSettings
+                    }
+                })
+            })
+            .subscribe()
+
 
         return () => {
             listener?.subscription?.unsubscribe()
