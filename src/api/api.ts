@@ -118,6 +118,15 @@ export default {
                         }
                     })
                 }
+            },
+            stats: {
+                getMyStats: () => {
+                    return fetch(`${constants.statsServiceURL}/users/${session.user.id}`, {
+                        headers: {
+                            'authorization': session.access_token
+                        }
+                    })
+                }
             }
         }
     }
