@@ -2,6 +2,7 @@
 docker build \
     --build-arg VITE_REQUEST_SERVICE_URL=$VITE_REQUEST_SERVICE_URL \
     --build-arg VITE_REPORT_SERVICE_URL=$VITE_REPORT_SERVICE_URL \
+    --build-arg VITE_BILLING_SERVICE_URL=$VITE_BILLING_SERVICE_URL \
     --build-arg VITE_SUPABASE_URL=$VITE_SUPABASE_URL \
     --build-arg VITE_SUPABASE_KEY=$VITE_SUPABASE_KEY \
     -t ninjeneer/vuln-scanner-client:latest .
