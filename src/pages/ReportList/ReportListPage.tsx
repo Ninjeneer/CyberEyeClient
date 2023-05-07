@@ -6,6 +6,7 @@ import Table from "../../components/Table/Table"
 import { Report, SupabaseReport } from "../../models/report"
 import { format } from "date-fns"
 import { useNavigate } from "react-router-dom"
+import { isDefined } from "../../utils/utils"
 
 const ReportListPage = () => {
     const [reports, setReports] = useState<SupabaseReport[]>([])
@@ -21,7 +22,7 @@ const ReportListPage = () => {
     }, [])
 
     const tableData = useMemo(() => {
-        return reports.map((report) => ({
+        return reports.filter((report) => isDefined(report.reportId)).map((report) => ({
             ...report,
             createdAt: format(new Date(report.createdAt), 'dd / MM / yyyy - HH:mm'),
             onClick: () => navigate(`/reports/${report.id}`),
