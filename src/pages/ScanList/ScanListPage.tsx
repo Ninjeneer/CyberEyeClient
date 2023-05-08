@@ -43,7 +43,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 		<div
 			className={
 				cx(
-					"border rounded mb-2 p-2 flex flex-col lg:flex-row justify-between items-center",
+					"border rounded mb-2 p-2 flex flex-col lg:flex-row justify-between lg:items-center gap-4",
 					scan.status === ScanStatus.FINISHED && "hover:cursor-pointer hover:bg-bgLight",
 					scan.status === ScanStatus.FINISHED && scan.notification && style.flash
 				)
