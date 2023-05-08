@@ -9,6 +9,7 @@ import { useState } from "react"
 import api from "../../api/api"
 import { useAuth } from "../../contexts/Auth"
 import { toast } from "react-toastify"
+import Spinner from "../../components/Spinner/Spinner"
 
 type FooterProps = {
     data: ScanSettings
@@ -17,17 +18,23 @@ type FooterProps = {
 const Footer = ({ data, disabled }: FooterProps) => {
     const navigate = useNavigate()
     const session = useAuth()
+    const [loading, setLoading] = useState(false)
 
     const confirm = () => {
+        setLoading(true)
         api.authenticated(session).scans.sendScanRequest(data).then((response) => {
             toast('Scan créé avec succès !', { type: 'success' })
             navigate('/scans', { state: { id: response.id } })
+        }).finally(() => {
+            setLoading(false)
         })
     }
 
     return (
         <div className="flex justify-center w-full">
-            <Button type="primary" onClick={confirm} disabled={disabled}>Valider</Button>
+            <Button type="primary" onClick={confirm} disabled={disabled || loading}>
+                {loading ? <Spinner size="small" inverted /> : 'Valider'}
+            </Button>
         </div>
     )
 }

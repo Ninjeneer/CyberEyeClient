@@ -42,7 +42,6 @@ export function AuthProvider({ children }) {
             const extendedSession: ExtendedSession = session
             if (extendedSession) {
                 const settings = await api.authenticated(session).settings.getAll()
-                console.log("🚀 ~ file: Auth.tsx:45 ~ const{data:listener}=supabase.auth.onAuthStateChange ~ settings:", settings)
                 if (settings.data) {
                     extendedSession.user.settings = settings.data
                 }
