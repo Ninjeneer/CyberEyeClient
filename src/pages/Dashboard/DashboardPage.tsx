@@ -33,7 +33,7 @@ const StatCard = ({ title, value, className }: StatCardProps) => {
 }
 
 const DashboardPage = () => {
-    const session = useAuth()
+    const { session } = useAuth()
     const [stats, setStats] = useState<UserStats>(null)
 
     useEffect(() => {
@@ -44,9 +44,6 @@ const DashboardPage = () => {
                 }
             })
     }, [])
-
-    // useEffect(() => setStats(fakeData), [])
-
 
     return (
         <EmptyPage pageTitle="Tableau de bord">

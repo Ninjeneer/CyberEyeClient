@@ -36,12 +36,6 @@ const TabCard = ({ tabs, className, currentTab }: Props) => {
     const tabComponent = useMemo(() => tabs.find((tab) => tab.id === selectedTab)?.component, [selectedTab, currentTab])
 
     useEffect(() => {
-        if (currentTab !== selectedTab) {
-            setSelectedTab(currentTab)
-        }
-    }, [currentTab])
-
-    useEffect(() => {
         if (window.location.hash !== selectedTab) {
             window.location.hash = selectedTab
         }

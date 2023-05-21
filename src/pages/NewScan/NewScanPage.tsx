@@ -30,7 +30,7 @@ const Footer = ({ disabled, data }: FooterProps) => {
 const NewScanPage = () => {
 	const [availableProbes, setAvailableProbes] = useState<Probe[]>([])
 	const [scanSettings, setScanSettings] = useState<ScanSettings>({} as ScanSettings)
-	const session = useAuth()
+	const { session } = useAuth()
 
 	useMemo(() => {
 		api.authenticated(session).probes.getAvailableProbes().then(async (res) => {

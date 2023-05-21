@@ -3,14 +3,14 @@ import Page from "../../components/Page/Page"
 import api from "../../api/api"
 import { useAuth } from "../../contexts/Auth"
 import Table from "../../components/Table/Table"
-import { Report, SupabaseReport } from "../../models/report"
+import { SupabaseReport } from "../../models/report"
 import { format } from "date-fns"
 import { useNavigate } from "react-router-dom"
 import { isDefined } from "../../utils/utils"
 
 const ReportListPage = () => {
     const [reports, setReports] = useState<SupabaseReport[]>([])
-    const session = useAuth()
+    const { session } = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {

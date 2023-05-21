@@ -17,7 +17,7 @@ type FooterProps = {
 }
 const Footer = ({ data, disabled }: FooterProps) => {
     const navigate = useNavigate()
-    const session = useAuth()
+    const { session } = useAuth()
     const [loading, setLoading] = useState(false)
 
     const confirm = () => {

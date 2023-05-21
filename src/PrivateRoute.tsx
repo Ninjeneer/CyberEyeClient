@@ -2,13 +2,13 @@ import { Navigate, Outlet } from "react-router-dom"
 import { useAuth } from "./contexts/Auth"
 
 export const PrivateRoute = () => {
-    const session = useAuth()
+    const auth = useAuth()
 
-    if (!session?.user) {
-        return <Navigate to="/login" />
+    if (!auth?.session?.user) {
+        return <Navigate to="/auth" />
     }
 
-    if (!session?.user?.settings?.plan) {
+    if (!auth?.settings?.plan) {
         return <Navigate to="/select-plan" />
     }
 

@@ -4,6 +4,7 @@ export type ScanSettings = {
 	target: string
 	probes: Partial<Probe>[]
 	periodicity: string
+	notification?: boolean
 }
 
 export type Scan = {

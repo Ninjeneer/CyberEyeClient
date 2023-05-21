@@ -12,8 +12,8 @@ import { MdShoppingCartCheckout } from "react-icons/md"
 import Spinner from "../../components/Spinner/Spinner"
 
 const BillingTab = () => {
-    const session = useAuth()
-    const [plan, setPlan] = useState(session.user.settings?.plan)
+    const { session, settings } = useAuth()
+    const [plan, setPlan] = useState(settings?.plan)
 
     const [loading, setLoading] = useState(false)
 
@@ -54,7 +54,7 @@ const BillingTab = () => {
             </div>
 
             <div className="flex justify-end mt-4 w-full">
-                <Button type="primary" disabled={session.user.settings.plan === plan} onClick={selectPlan}>
+                <Button type="primary" disabled={settings.plan === plan} onClick={selectPlan}>
                     {
                         loading ? <Spinner inverted size="small" /> : (
                             <>

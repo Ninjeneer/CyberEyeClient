@@ -13,7 +13,7 @@ const CheckoutCancelPage = () => {
     }, [])
 
     const goToSettings = useCallback(() => {
-        navigate('/settings')
+        navigate('/settings#billing')
     }, [])
 
     const isFromSettings = useMemo(() => {

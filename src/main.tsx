@@ -9,7 +9,6 @@ import ConfirmScanPage from './pages/ConfirmScan/ConfirmScanPage'
 import ReportsListPage from './pages/ReportList/ReportListPage'
 import ReportViewPage from './pages/ReportView/ReportViewPage'
 import LoginPage from './pages/Login/LoginPage'
-import RegisterPage from './pages/Register/RegisterPage'
 import { AuthProvider } from './contexts/Auth'
 import { PrivateRoute } from './PrivateRoute'
 import ScanListPage from './pages/ScanList/ScanListPage'
@@ -24,8 +23,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/auth' element={<LoginPage />} />
           <Route path='/select-plan' element={<SelectPlanPage />} />
 
           <Route path='/checkout/success' element={<CheckoutSuccessPage />} />

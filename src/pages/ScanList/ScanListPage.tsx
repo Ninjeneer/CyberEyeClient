@@ -21,7 +21,7 @@ type ScanEntryProps = {
 }
 const ScanEntry = ({ scan }: ScanEntryProps) => {
 	const navigate = useNavigate()
-	const session = useAuth()
+	const { session } = useAuth()
 
 	const goToReport = () => {
 		if (scan.notification) {
@@ -83,7 +83,7 @@ const ScanEntry = ({ scan }: ScanEntryProps) => {
 
 const ScanListPage = () => {
 	const [scans, setScans] = useState<Record<string, Scan>>({})
-	const session = useAuth()
+	const { session } = useAuth()
 
 	const [pendingScans, runningScans, finishedScans] = useMemo(() => {
 		const pending = []

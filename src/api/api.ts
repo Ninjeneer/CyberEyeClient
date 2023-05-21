@@ -3,17 +3,10 @@ import constants from "../constants";
 import { SupabaseReport } from "../models/report";
 import { Scan, ScanSettings, ScanWithProbes } from "../models/Scan";
 import supabaseClient from './supabase'
-import { UserSettings } from "../models/settings";
+import { UserCredits, UserSettings } from "../models/settings";
 
 export default {
     auth: {
-        register: (email: string, password: string) => {
-            return supabaseClient.auth.signUp({ email, password })
-        },
-
-        login: (email: string, password: string) => {
-            return supabaseClient.auth.signInWithPassword({ email, password })
-        },
         logout: () => {
             return supabaseClient.auth.signOut();
         },
@@ -102,7 +95,12 @@ export default {
                 },
                 update: (settings: Partial<UserSettings>) => {
                     return supabaseClient.from('user_settings').upsert({ userId: session.user.id, ...settings }, { onConflict: 'userId' }).eq('userId', session.user.id)
-                }
+                },
+                listenForSettings: (onChange: (payload: RealtimePostgresChangesPayload<UserSettings>) => void) => {
+                    supabaseClient.channel('user_settings')
+                        .on('postgres_changes', { event: '*', schema: 'public', table: 'user_settings' }, onChange)
+                        .subscribe()
+                },
             },
             billing: {
                 buyPlan: (priceId: string, isUpdate = false) => {
@@ -127,6 +125,9 @@ export default {
                         }
                     })
                 }
+            },
+            credits: {
+                getAll: () => supabaseClient.from('user_credits').select<string, UserCredits>('*').eq('userId', session.user.id).maybeSingle()
             }
         }
     }

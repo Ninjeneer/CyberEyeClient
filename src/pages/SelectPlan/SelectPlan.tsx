@@ -14,7 +14,7 @@ import logo from '../../assets/logo.png'
 import Spinner from "../../components/Spinner/Spinner"
 
 const SelectPlanPage = () => {
-	const session = useAuth()
+	const { session, settings } = useAuth()
 	const navigate = useNavigate()
 
 	const [plan, setPlan] = useState(null)
@@ -50,10 +50,10 @@ const SelectPlanPage = () => {
 	}, [plan])
 
 	useEffect(() => {
-		if (session?.user?.settings?.plan) {
+		if (settings?.plan) {
 			navigate('/')
 		}
-	}, [session])
+	}, [settings])
 
 	return (
 		<div className="w-full h-full flex justify-center items-center bg-bgLight overflow-y-auto">
