@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
-import { FaChevronLeft, FaUser } from 'react-icons/fa'
+import { FaChevronLeft, FaPowerOff, FaUser, FaWrench } from 'react-icons/fa'
 import { useCallback } from 'react'
+import api from '../../api/api'
 import Popover from '../Popover/Popover'
-import supabase from '../../api/supabase'
+import styles from './Style.module.css'
 
 type Props = {
 	pageTitle: string
@@ -16,8 +17,12 @@ const EmptyPage = ({ pageTitle, children, canGoPrevious }: Props) => {
 	const navigate = useNavigate()
 
 	const goBack = useCallback(() => navigate(-1), [])
+	const goToSettings = useCallback(() => navigate('/settings'), [])
 
-	const logout = useCallback(() => supabase.auth.signOut(), [])
+
+	const logout = useCallback(async () => {
+		await api.auth.logout()
+	}, [])
 
 	return (
 		<section>
@@ -31,8 +36,9 @@ const EmptyPage = ({ pageTitle, children, canGoPrevious }: Props) => {
 						<FaUser size={30} />
 					</Popover.Trigger>
 
-					<Popover.Item onClick={logout}>Déconnexion</Popover.Item>
-				</Popover.PopoverContainer>
+					<Popover.Item onClick={goToSettings}><span className={styles.itemContainer}><FaWrench /> Paramètres</span></Popover.Item>
+					<Popover.Item onClick={logout}><span className={styles.itemContainer}><FaPowerOff /> Déconnexion</span></Popover.Item>
+				</Popover.PopoverContainer>			
 			</header>
 
 			{children}

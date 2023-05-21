@@ -23,7 +23,7 @@ type HeaderButtonsProps = {
 }
 const HeaderButtons = ({ reportId, onRebuild }: HeaderButtonsProps) => {
 	const [loading, setLoading] = useState(false)
-	const session = useAuth()
+	const { session } = useAuth()
 
 	const rebuild = useCallback(() => {
 		setLoading(true)
@@ -36,7 +36,7 @@ const HeaderButtons = ({ reportId, onRebuild }: HeaderButtonsProps) => {
 
 	return (
 		<div className="flex justify-end">
-			<Button type="warning" onClick={rebuild} disabled={loading}>{ loading ? <Spinner inverted size="small" /> : <span className="flex items-center gap-2"><IoHammer /> Rebuild report</span> }</Button>
+			<Button type="warning" onClick={rebuild} disabled={loading}>{loading ? <Spinner inverted size="small" /> : <span className="flex items-center gap-2"><IoHammer /> Rebuild report</span>}</Button>
 		</div>
 	)
 }
@@ -58,16 +58,16 @@ const SummaryEntry = ({ name, value }: SummaryEntryProps) => {
 const ReportViewPage = () => {
 	const [supabaseReport, setSupabaseReport] = useState<SupabaseReport>(null)
 	const [report, setReport] = useState<Report>(null)
-	const session = useAuth()
+	const { session } = useAuth()
 	const location = useLocation()
 
 	const reportId = useMemo(() => location.pathname?.split('/').at(-1), [])
 
-	// useEffect(() => {
-	//     if (scan.notification) {
-	//         api.authenticated(session).scans.updateScan(scan.id, { notification: false }).then()
-	//     }
-	// }, [scan])
+	useEffect(() => {
+		if (supabaseReport?.scanId) {
+			api.authenticated(session).scans.updateScan(supabaseReport.scanId, { notification: false }).then()
+		}
+	}, [supabaseReport])
 
 	const fetchReport = useCallback(() => {
 		// Pull the Supabase Report to get the MongoDB reportId
@@ -87,7 +87,7 @@ const ReportViewPage = () => {
 
 	return report ? (
 		<Page pageTitle="Rapport de scan" canGoPrevious>
-			{ !isProd() ? <HeaderButtons reportId={reportId} onRebuild={() => { toast('Report rebuilt !', { type: "info" }); fetchReport() }} /> : null }
+			{!isProd() ? <HeaderButtons reportId={reportId} onRebuild={() => { toast('Report rebuilt !', { type: "info" }); fetchReport() }} /> : null}
 
 			<Section name="Résumé">
 				<div className="flex flex-col lg:flex-row justify-around gap-4 lg:gap-0">

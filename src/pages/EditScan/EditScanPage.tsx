@@ -19,7 +19,7 @@ type FooterProps = {
 	onDelete: Function
 }
 const Footer = ({ disabled, data, onUpdate, onDelete }: FooterProps) => {
-	const session = useAuth()
+	const { session } = useAuth()
 
 	const updateScan = useCallback(() => {
 		api.authenticated(session).scans.updateScan(data.id, data.settings).then((res) => {
@@ -46,7 +46,7 @@ const Footer = ({ disabled, data, onUpdate, onDelete }: FooterProps) => {
 }
 
 const EditScanPage = () => {
-	const session = useAuth()
+	const { session } = useAuth()
 	const location = useLocation()
 	const navigate = useNavigate()
 

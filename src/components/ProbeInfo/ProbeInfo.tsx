@@ -9,9 +9,10 @@ type Props = {
 	selectable?: boolean
 	onChange?: (probe: Partial<Probe>) => void
 	isSelected?: boolean
+	disabled?: boolean
 }
 
-const ProbeInfo = ({ probe, selectable, onChange, isSelected }: Props) => {
+const ProbeInfo = ({ probe, selectable, onChange, isSelected, disabled }: Props) => {
 	return (
 		<div className={cx(
 			"p-2 border-2 rounded w-full flex flex-col gap-4 justify-between",
@@ -35,6 +36,7 @@ const ProbeInfo = ({ probe, selectable, onChange, isSelected }: Props) => {
 							onClick={() => {
 								onChange && onChange(probe)
 							}}
+							disabled={disabled}
 						>
 							{isSelected ? 'Supprimer' : 'Ajouter'}
 						</Button>

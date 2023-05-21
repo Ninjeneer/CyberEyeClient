@@ -3,7 +3,7 @@ import style from './Style.module.css'
 import cx from 'classnames'
 import { MdDashboard, MdSettings } from "react-icons/md";
 import { AiFillSecurityScan } from "react-icons/ai";
-import { FaFile, FaList } from "react-icons/fa";
+import { FaList } from "react-icons/fa";
 import logo from '../../assets/logo.png'
 import { RiRadarFill } from 'react-icons/ri'
 import { RxHamburgerMenu, RxCross1 } from 'react-icons/rx'

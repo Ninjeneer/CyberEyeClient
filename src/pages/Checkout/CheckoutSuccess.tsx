@@ -11,10 +11,6 @@ const CheckoutSuccessPage = () => {
         navigate('/')
     }, [])
 
-    const goToSettings = useCallback(() => {
-        navigate('/settings')
-    }, [])
-
     const isFromSettings = useMemo(() => {
         return !!params.get('fromSettings')
     }, [params])
@@ -24,7 +20,7 @@ const CheckoutSuccessPage = () => {
             <section className="w-full md:w-[700px] flex flex-col items-center text-center m-auto p-5 md:p-10 bg-white shadow gap-5 md:gap-10">
                 <FaCheckCircle size={50} className="text-success" />
                 <h1 className="text-3xl">Votre paiement a été traité avec succès</h1>
-                <Button type="primary" onClick={isFromSettings ? goToSettings : goToStart}>
+                <Button type="primary" onClick={goToStart}>
                     {
                         !isFromSettings ? (
                             <>
@@ -32,7 +28,7 @@ const CheckoutSuccessPage = () => {
                             </>
                         ) : (
                             <>
-                                <FaArrowLeft className="mr-2 mb-1" /> Retour
+                                <FaArrowLeft className="mr-2 mb-1" /> Retour à l'accueil
                             </>
                         )
                     }

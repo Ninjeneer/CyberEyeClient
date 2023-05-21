@@ -1,78 +1,86 @@
 import React, { useContext, useState, useMemo, useEffect } from 'react'
 import supabase from '../api/supabase'
-import { Session, User } from '@supabase/supabase-js'
-import { UserSettings } from '../models/settings'
+import { AuthSession, Session, User } from '@supabase/supabase-js'
+import { UserCredits, UserSettings } from '../models/settings'
 import api from '../api/api'
+import { USER_CREDIT_DEFAULTS } from '../defaults'
+import { isEventCreateOrUpate } from '../utils/supabaseUtils'
 
-type ExtendedSession = Session & {
-    user: ExtendedUser
-}
-
-type ExtendedUser = User & {
+type ExtendedSession = {
+    session: Session
     settings?: UserSettings
+    credits?: UserCredits
 }
 
 const AuthContext = React.createContext<ExtendedSession>(null)
 
 export function AuthProvider({ children }) {
-    const [session, setSession] = useState<ExtendedSession>()
+    const [session, setSession] = useState<Session>(null)
+    const [settings, setSettings] = useState(null)
+    const [credits, setCredits] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useMemo(async () => {
         // Check active sessions and sets the user
-        const supabaseSession = await supabase.auth.getSession()
-        const extendedSession: ExtendedSession = supabaseSession?.data?.session
-
-        if (extendedSession) {
-            try {
-                const settings = await api.authenticated(supabaseSession.data.session).settings.getAll()
-                if (settings.data) {
-                    extendedSession.user.settings = settings.data
-                }
-            } catch (e) {
-                console.log(e)
-            }
+        const session = await supabase.auth.getSession()
+        if (session?.data?.session) {
+            const [settings, credits] = await Promise.all([
+                api.authenticated(session.data.session).settings.getAll(),
+                api.authenticated(session.data.session).credits.getAll()
+            ])
+            setSettings(settings?.data)
+            setCredits(credits?.data)
         }
 
-        setSession(extendedSession ?? null)
+        setSession(session?.data?.session ?? null)
         setLoading(false)
 
         // Listen for changes on auth state (logged in, signed out, etc.)
         const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-            const extendedSession: ExtendedSession = session
-            if (extendedSession) {
-                const settings = await api.authenticated(session).settings.getAll()
-                console.log("🚀 ~ file: Auth.tsx:45 ~ const{data:listener}=supabase.auth.onAuthStateChange ~ settings:", settings)
-                if (settings.data) {
-                    extendedSession.user.settings = settings.data
-                }
-            }
-            setSession(extendedSession ?? null)
+            setSession(session ?? null)
             setLoading(false)
         })
-
-        // Listen for changes in settings
-        supabase.channel('user_settings')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'user_settings' }, (change) => {
-                setSession({
-                    ...extendedSession,
-                    user: {
-                        ...extendedSession.user,
-                        settings: change.new as UserSettings
-                    }
-                })
-            })
-            .subscribe()
-
 
         return () => {
             listener?.subscription?.unsubscribe()
         }
     }, [])
 
-    return <AuthContext.Provider value={session}> {!loading && children}</AuthContext.Provider>
+    useEffect(() => {
+        if (session) {
+            Promise.all([
+                api.authenticated(session).settings.getAll(),
+                api.authenticated(session).credits.getAll()
+            ]).then(([settings, credits]) => {
+                setSettings(settings.data)
+                setCredits(credits?.data || USER_CREDIT_DEFAULTS)
+            }).catch(console.error)
+
+            // Listen for changes in settings
+            api.authenticated(session).settings.listenForSettings((change) => {
+                if (isEventCreateOrUpate(change)) {
+                    setSettings(change.new)
+                } else {
+                    setSettings(null)
+                }
+            })
+
+            // Listen for changes in settings
+            supabase.channel('user_credits')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'user_credits' }, (change) => {
+                    if (isEventCreateOrUpate(change)) {
+                        setCredits(change.new)
+                    } else {
+                        setCredits(null)
+                    }
+                })
+                .subscribe()
+        }
+    }, [session])
+
+    return <AuthContext.Provider value={{ session, settings, credits }}>{!loading && children}</AuthContext.Provider>
 }
 
 export function useAuth() {
-    return useContext(AuthContext)
+    return useContext(AuthContext) || {} as ExtendedSession
 }
