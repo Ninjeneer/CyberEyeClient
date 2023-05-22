@@ -8,9 +8,5 @@ export const PrivateRoute = () => {
         return <Navigate to="/auth" />
     }
 
-    if (!auth?.settings?.plan) {
-        return <Navigate to="/select-plan" />
-    }
-
     return <Outlet />
 }

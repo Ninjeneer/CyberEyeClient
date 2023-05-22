@@ -2,7 +2,7 @@ import { Probe } from "./Probe"
 
 export type ScanSettings = {
 	target: string
-	probes: Partial<Probe>[]
+	probes: Probe[]
 	periodicity: string
 	notification?: boolean
 }

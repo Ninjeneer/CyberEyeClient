@@ -7,14 +7,16 @@ type Props = {
     onClick?: () => void
     disabled?: boolean
     size?: 'small' | 'base' | 'big'
+    title?: string
 }
 
-const Button = ({ children, type, onClick, disabled, size = 'base' }: Props) => {
+const Button = ({ children, type, onClick, disabled, size = 'base', title }: Props) => {
     return (
         <button
             onClick={onClick}
             className={cx(style[type], style.button, style[size], 'duration-200')}
             disabled={disabled}
+            title={title}
         >
             {children}
         </button>
