@@ -5,9 +5,11 @@ import Button from '../Button/Button'
 type Props = {
     onChange: (value: string) => void
     value?: string
+    massDisable: Record<string, { active: boolean, reason?: string }> // Decide which periodicity needs to be disabled
+    disabled?: boolean
 }
 
-const Periodicity = ({ onChange, value }: Props) => {
+const Periodicity = ({ onChange, value, massDisable, disabled }: Props) => {
 
     return (
         <div className='flex flex-col gap-2 lg:flex-row'>
@@ -18,6 +20,8 @@ const Periodicity = ({ onChange, value }: Props) => {
                         onChange(periodicity.cron)
                     }}
                     key={periodicity.cron}
+                    disabled={!massDisable || (massDisable[periodicity.cron] && !massDisable[periodicity.cron].active)}
+                    title={massDisable?.[periodicity.cron]?.reason}
                 >
                     {periodicity.label}
                 </Button>

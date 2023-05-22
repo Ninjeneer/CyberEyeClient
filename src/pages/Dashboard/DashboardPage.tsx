@@ -8,6 +8,7 @@ import api from "../../api/api"
 import { StatusCodes } from "http-status-codes"
 import Spinner from "../../components/Spinner/Spinner"
 import { isDefined } from "../../utils/utils"
+import { IoDiamond } from "react-icons/io5"
 
 
 const fakeData: UserStats = {
@@ -33,7 +34,7 @@ const StatCard = ({ title, value, className }: StatCardProps) => {
 }
 
 const DashboardPage = () => {
-    const { session } = useAuth()
+    const { session, credits } = useAuth()
     const [stats, setStats] = useState<UserStats>(null)
 
     useEffect(() => {
@@ -47,7 +48,7 @@ const DashboardPage = () => {
 
     return (
         <EmptyPage pageTitle="Tableau de bord">
-            <div className="w-full md:w-4/5 m-auto grid grid-cols-3 gap-2">
+            <div className="w-full md:w-4/5 m-auto grid grid-cols-3 justify-center gap-2">
 
                 <Card className="p-4 flex justify-center items-center text-center col-span-3">
                     <p>Bienvenue sur <b>Cyber Eye</b>, votre assistant de sécurité pour vos applications et infrastructures.</p>
@@ -56,6 +57,14 @@ const DashboardPage = () => {
                 <StatCard title="Nombre total de scans" value={isDefined(stats?.nbScans) ? stats.nbScans : <Spinner size="medium" />} />
                 <StatCard title="Nombre total de rapports" value={isDefined(stats?.nbReports) ? stats.nbReports : <Spinner size="medium" />} />
                 <StatCard title="Nombre total de sondes" value={isDefined(stats?.nbTotalProbes) ? stats.nbTotalProbes : <Spinner size="medium" />} />
+                <StatCard title="Crédits restants" value={isDefined(credits.remainingCredits) ? (
+                    <span className="flex items-center justify-center gap-2">
+                        <IoDiamond className="text-primary" />
+                        {credits.remainingCredits}
+                    </span>
+                ) : (
+                    <Spinner size="medium" />
+                )} />
                 {/* <StatCard title="Nombre moyen de sonde par scan" value={isDefined(stats?.avgProbesPerScan) ? stats.avgProbesPerScan : <Spinner size="medium" />} /> */}
                 {/* <StatCard title="Nombre de vulnérabilité trouvées" value={isDefined(stats?.nbVuln) ? stats.nbVuln : <Spinner size="medium" />} /> */}
 

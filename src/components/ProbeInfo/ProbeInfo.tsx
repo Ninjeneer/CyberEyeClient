@@ -2,12 +2,13 @@ import { useState } from "react"
 import { Probe } from "../../models/Probe"
 import Button from "../Button/Button"
 import cx from 'classnames'
-import { probeNameMapping } from "../../utils/probeUtils"
+import { probeNameMapping } from "../../utils/probe.utils"
+import { IoDiamond } from "react-icons/io5"
 
 type Props = {
-	probe: Partial<Probe>,
+	probe: Probe,
 	selectable?: boolean
-	onChange?: (probe: Partial<Probe>) => void
+	onChange?: (probe: Probe) => void
 	isSelected?: boolean
 	disabled?: boolean
 }
@@ -28,18 +29,24 @@ const ProbeInfo = ({ probe, selectable, onChange, isSelected, disabled }: Props)
 				</div>
 			</div>
 
-			<footer className="flex justify-end items-center">
+			<footer className="flex justify-between items-center">
 				{
 					selectable ? (
-						<Button
-							type='primary'
-							onClick={() => {
-								onChange && onChange(probe)
-							}}
-							disabled={disabled}
-						>
-							{isSelected ? 'Supprimer' : 'Ajouter'}
-						</Button>
+						<>
+							<span className="flex items-center gap-2">
+								<IoDiamond className="text-primary" /> {probe.price} crédits
+							</span>
+
+							<Button
+								type='primary'
+								onClick={() => {
+									onChange && onChange(probe)
+								}}
+								disabled={disabled}
+							>
+								{isSelected ? 'Supprimer' : 'Ajouter'}
+							</Button>
+						</>
 					) : null
 				}
 			</footer >

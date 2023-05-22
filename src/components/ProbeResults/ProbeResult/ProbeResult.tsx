@@ -1,7 +1,7 @@
 import { BsChevronDown, BsChevronUp } from "react-icons/bs"
 import { Probe } from "../../../models/Probe"
 import { ProbeResult as ProbeResultContainer, Report } from "../../../models/report"
-import { probeNameMapping } from "../../../utils/probeUtils"
+import { probeNameMapping } from "../../../utils/probe.utils"
 import { useState } from "react"
 import cx from 'classnames'
 

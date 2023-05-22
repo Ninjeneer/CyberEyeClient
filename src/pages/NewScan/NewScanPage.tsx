@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Page from "../../components/Page/Page"
 import Button from "../../components/Button/Button"
 import { Probe } from "../../models/Probe"
@@ -9,6 +9,8 @@ import { StatusCodes } from "http-status-codes"
 import { useAuth } from "../../contexts/Auth"
 import ScanEdit from "../../components/ScanEdit/ScanEdit"
 import { isScanSettingValid } from "../../utils/scan.utils"
+import { getAllCreditsUsedByProbesForMonth } from "../../utils/probe.utils"
+import { useGlobal } from "../../contexts/Global"
 
 type FooterProps = {
 	disabled: boolean

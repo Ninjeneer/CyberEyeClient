@@ -4,6 +4,7 @@ import { SupabaseReport } from "../models/report";
 import { Scan, ScanSettings, ScanWithProbes } from "../models/Scan";
 import supabaseClient from './supabase'
 import { UserCredits, UserSettings } from "../models/settings";
+import { ProbeWithScan, SupabaseProbe } from "../models/Probe";
 
 export default {
     auth: {
@@ -34,7 +35,7 @@ export default {
                     return supabaseClient.from('scans').select('*').eq('id', id).single()
                 },
                 getScanWithProbes: (id: string, lite = false) => {
-                    return supabaseClient.from('scans').select(`*, probes(${lite ? 'name' : '*'})`).eq('id', id).single()
+                    return supabaseClient.from('scans').select(`*, probes(${lite ? 'name, price' : '*'})`).eq('id', id).single()
                 },
                 liteUpdateScan: (id: string, payload: Partial<Scan>) => {
                     return supabaseClient.from('scans').update(payload).eq('id', id)
@@ -65,6 +66,14 @@ export default {
                         }
                     })
                 },
+                getAllActiveProbes: async () => {
+                    return await supabaseClient.from('probes').select<string, ProbeWithScan>('*, scans(userId, periodicity)').eq('scans.userId', session.user.id)
+                },
+                listenForProbes: (onChange: (payload: RealtimePostgresChangesPayload<SupabaseProbe>) => void) => {
+                    supabaseClient.channel('probes')
+                        .on('postgres_changes', { event: '*', schema: 'public', table: 'probes' }, onChange)
+                        .subscribe()
+                },
             },
             reports: {
                 getReports: () => {
@@ -94,7 +103,12 @@ export default {
                     return supabaseClient.from('user_settings').select<string, UserSettings>('*', {}).eq('userId', session.user.id).maybeSingle()
                 },
                 update: (settings: Partial<UserSettings>) => {
-                    return supabaseClient.from('user_settings').upsert({ userId: session.user.id, ...settings }, { onConflict: 'userId' }).eq('userId', session.user.id)
+                    return supabaseClient
+                        .from('user_settings')
+                        .upsert({ userId: session.user.id, ...settings }, { onConflict: 'userId' })
+                        .eq('userId', session.user.id)
+                        .select()
+                        .maybeSingle()
                 },
                 listenForSettings: (onChange: (payload: RealtimePostgresChangesPayload<UserSettings>) => void) => {
                     supabaseClient.channel('user_settings')

@@ -4,5 +4,5 @@ export type UserSettings = {
 }
 
 export type UserCredits = {
-    remaningCredits: number
+    remainingCredits: number
 }

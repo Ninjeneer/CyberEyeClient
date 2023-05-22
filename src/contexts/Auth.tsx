@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
                 api.authenticated(session.data.session).credits.getAll()
             ])
             setSettings(settings?.data)
-            setCredits(credits?.data)
+            setCredits(credits?.data || 0)
         }
 
         setSession(session?.data?.session ?? null)
@@ -51,9 +51,20 @@ export function AuthProvider({ children }) {
             Promise.all([
                 api.authenticated(session).settings.getAll(),
                 api.authenticated(session).credits.getAll()
-            ]).then(([settings, credits]) => {
+            ]).then(async ([settings, credits]) => {
+
+                if (!settings?.data) {
+                    const settings = await api.authenticated(session).settings.update({ userId: session.user.id, plan: 'free'})
+                    if (settings.error) {
+                        console.error(settings.error)
+                    } else {
+                        setSettings(settings.data)
+                    }
+                }
+
+
                 setSettings(settings.data)
-                setCredits(credits?.data || USER_CREDIT_DEFAULTS)
+                setCredits(credits?.data || 0)
             }).catch(console.error)
 
             // Listen for changes in settings
@@ -69,9 +80,9 @@ export function AuthProvider({ children }) {
             supabase.channel('user_credits')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'user_credits' }, (change) => {
                     if (isEventCreateOrUpate(change)) {
-                        setCredits(change.new)
+                        setCredits(change.new || 0)
                     } else {
-                        setCredits(null)
+                        setCredits(0)
                     }
                 })
                 .subscribe()
