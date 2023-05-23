@@ -23,7 +23,7 @@ const ScanEdit = ({ onChange, availableProbes = [], value }: Props) => {
 
     const [creditCostEstimation, setCreditCostEstimation] = useState<Record<string, { active: boolean, reason?: string }>>({})
 
-    const nbProbesRemaning = useMemo<number>(() => {
+    const nbProbesremaining = useMemo<number>(() => {
         const userCredits = credits.remainingCredits
         return userCredits - getAllCreditsUsedByProbesForMonth(selectedProbes, periodicity)
     }, [credits, selectedProbes, value, periodicity])
@@ -34,11 +34,11 @@ const ScanEdit = ({ onChange, availableProbes = [], value }: Props) => {
             setSelectedProbes(selectedProbes.filter((selectedProbe) => selectedProbe.name !== probe.name))
         } else {
             // Add the probe
-            if (nbProbesRemaning > 0) {
+            if (nbProbesremaining > 0) {
                 setSelectedProbes([...selectedProbes, probe as Probe])
             }
         }
-    }, [selectedProbes, nbProbesRemaning])
+    }, [selectedProbes, nbProbesremaining])
 
     // If no probe is selected, remove periodicity value
     useEffect(() => {
@@ -68,7 +68,7 @@ const ScanEdit = ({ onChange, availableProbes = [], value }: Props) => {
     return (
         <div>
             <div className="flex justify-end">
-                <p className="text-sm">{nbProbesRemaning} {pluralWord('crédit', 's', nbProbesRemaning)} restant pour le mois courant</p>
+                <p className="text-sm">{nbProbesremaining} {pluralWord('crédit', 's', nbProbesremaining)} restant pour le mois courant</p>
             </div>
             <div className="inputGroup">
                 <label>Cible du scan</label>
@@ -92,7 +92,7 @@ const ScanEdit = ({ onChange, availableProbes = [], value }: Props) => {
                                 selectable={true}
                                 onChange={onProbeChange}
                                 isSelected={isProbeSelected}
-                                disabled={!isProbeSelected && (nbProbesRemaning < probe.price)}
+                                disabled={!isProbeSelected && (nbProbesremaining < probe.price)}
                             />
                         )
                     })}
