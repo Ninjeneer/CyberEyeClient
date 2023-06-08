@@ -9,6 +9,7 @@ import { StatusCodes } from "http-status-codes"
 import Spinner from "../../components/Spinner/Spinner"
 import { isDefined } from "../../utils/utils"
 import { IoDiamond } from "react-icons/io5"
+import { NavLink } from "react-router-dom"
 
 
 const fakeData: UserStats = {
@@ -58,9 +59,14 @@ const DashboardPage = () => {
                 <StatCard title="Nombre total de rapports" value={isDefined(stats?.nbReports) ? stats.nbReports : <Spinner size="medium" />} />
                 <StatCard title="Nombre total de sondes" value={isDefined(stats?.nbTotalProbes) ? stats.nbTotalProbes : <Spinner size="medium" />} />
                 <StatCard title="Crédits restants" value={isDefined(credits.remainingCredits) ? (
-                    <span className="flex items-center justify-center gap-2">
-                        <IoDiamond className="text-primary" />
-                        {credits.remainingCredits}
+                    <span className="flex flex-col items-center justify-center gap-2">
+                        <div className="flex">
+                            <IoDiamond className="text-primary" />
+                            {credits.remainingCredits}
+                        </div>
+                        <footer className="flex justify-end w-full">
+                            <NavLink to="/settings#billing" className="text-primary font-bold text-base">Recharger mes crédits</NavLink>
+                        </footer>
                     </span>
                 ) : (
                     <Spinner size="medium" />
